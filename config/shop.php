@@ -1,0 +1,1 @@
+<?php return ['freeship_threshold' => 500000];

@@ -1,0 +1,1550 @@
+@import "tailwindcss";
+
+@theme {
+    /* ============================================================ */
+    /* THLD BOOKSTORE — PREMIUM DESIGN TOKENS (Tailwind v4 Standard) */
+    /* ============================================================ */
+
+    /* [Colors] — Using pure HEX for var(--color-primary / opacity) logic */
+    --color-brand-primary: #C92127;
+    --color-brand-primary-light: #e53935;
+    --color-brand-primary-dark: #a81b20;
+    --color-brand-secondary: #f39200;
+    --color-brand-gold: #fbbf24;
+
+    /* Alias for rapid development */
+    --color-primary: var(--color-brand-primary, #C92127);
+    --color-primary-light: var(--color-brand-primary-light, #e53935);
+    --color-primary-dark: var(--color-brand-primary-dark, #a81b20);
+
+    --color-white: #ffffff;
+    --color-slate-900: #0f172a;
+
+    /* Semantic Colors */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-info: #3b82f6;
+
+    /* Layout & Spacing */
+    --spacing-main: 1.5rem;
+    --spacing-section: 6rem;
+    --width-main: 1400px;
+    --radius-brand: 12px;
+    --radius-premium: 16px;
+
+    /* Typography — "The Classic Publisher" System */
+    --font-heading: "Lora", Georgia, serif;
+    /* Tiêu đề — Serif thanh thoát như mực in */
+    --font-body: "Be Vietnam Pro", "Inter", sans-serif;
+    /* Body — tối ưu tiếng Việt */
+    --font-ui: "Inter", sans-serif;
+    /* UI nhỏ, số, giá tiền */
+    --font-accent: "Lora", serif;
+    /* Accent italic — trích dẫn, tên sách */
+
+    /* Typography Scale — Khoảng cách dòng như trang sách */
+    --leading-book: 1.75;
+    /* Mô tả sách — rộng rãi như đọc tiểu thuyết */
+    --leading-card: 1.5;
+    /* Card title — cân bằng */
+    --leading-ui: 1.4;
+    /* UI elements — compact */
+    --tracking-heading: -0.02em;
+    /* Tiêu đề — tight như in ấn chuyên nghiệp */
+    --tracking-label: 0.08em;
+    /* Label uppercase — rõ ràng */
+
+    /* Shadow System */
+    --shadow-brand: 0 10px 15px -3px rgba(201, 33, 39, 0.1), 0 4px 6px -2px rgba(201, 33, 39, 0.05);
+    --shadow-premium: 0 20px 50px -12px rgba(0, 0, 0, 0.15);
+    --shadow-premium-dark: 0 20px 50px rgba(0, 0, 0, 0.4);
+    --shadow-dropdown: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --shadow-soft: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+
+    /* Admin Layout Tokens */
+    --admin-sidebar-width: 260px;
+    --admin-sidebar-collapsed-width: 72px;
+    --admin-topbar-height: 64px;
+
+    /* Admin Surface Colors */
+    --admin-surface: #ffffff;
+    --admin-surface-muted: #f8fafc;
+    --admin-border: #e2e8f0;
+    --admin-text-primary: #0f172a;
+    --admin-text-muted: #64748b;
+    --admin-bg: #f5f7fa;
+
+    /* ============================================================ */
+    /* BOOK-THEMED DESIGN TOKENS — Visual Identity của THLD Bookstore */
+    /* ============================================================ */
+
+    /* Paper Colors — Màu giấy sách thật, dễ đọc hơn trắng tinh */
+    --color-paper: #F9F7F2;
+    /* Paper White — light mode background */
+    --color-paper-warm: #F5F0E8;
+    /* Warm Paper — cho các card/section */
+    --color-paper-aged: #EDE8DC;
+    /* Aged Paper — cho hover states */
+    --color-ink: #1A1410;
+    /* Ink Black — text chính */
+    --color-ink-muted: #5C4F3D;
+    /* Ink Muted — text phụ */
+    --color-spine: #C92127;
+    /* Book Spine — màu gáy sách = brand primary */
+
+    /* Book Radii — Góc bo mô phỏng bìa sách cứng */
+    --radius-book: 4px;
+    /* Hardcover corner — nút, badge */
+    --radius-book-card: 6px;
+    /* Book card corner */
+    --radius-book-cover: 8px;
+    /* Book cover — card lớn */
+    --radius-book-shelf: 12px;
+    /* Shelf/panel — section containers */
+
+    /* Book Shadows — Chiều sâu như sách trên kệ */
+    --shadow-book: 3px 4px 12px rgba(26, 20, 16, 0.12), 1px 2px 4px rgba(26, 20, 16, 0.08);
+    --shadow-book-hover: 6px 12px 24px rgba(26, 20, 16, 0.18), 2px 4px 8px rgba(26, 20, 16, 0.1);
+    --shadow-book-spine: inset 3px 0 6px rgba(0, 0, 0, 0.15);
+    /* Gáy sách */
+    --shadow-page: 0 1px 3px rgba(26, 20, 16, 0.06), 0 1px 2px rgba(26, 20, 16, 0.04);
+
+    /* Transitions */
+    --transition-premium: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    --transition-smooth: all 0.3s ease;
+    --transition-book: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Spring — lấy sách ra khỏi kệ */
+
+    /* [Keyframes & Animations] — Automatically generates .animate-* classes */
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes attentionBurst {
+        0% {
+            box-shadow: 0 0 0 0 rgba(201, 33, 39, 0.6);
+        }
+
+        70% {
+            box-shadow: 0 0 0 20px rgba(201, 33, 39, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(201, 33, 39, 0);
+        }
+    }
+
+    @keyframes floatBook {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        50% {
+            transform: translateY(-12px) rotate(4deg);
+        }
+    }
+
+    @keyframes shimmer {
+        from {
+            background-position: 200% 0;
+        }
+
+        to {
+            background-position: -200% 0;
+        }
+    }
+
+    @keyframes shimmerSweep {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    @keyframes blob {
+
+        0%,
+        100% {
+            transform: translate(0px, 0px) scale(1);
+        }
+
+        33% {
+            transform: translate(40px, -60px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(-30px, 30px) scale(0.85);
+        }
+    }
+
+    @keyframes bouncePremium {
+
+        0%,
+        100% {
+            transform: translateY(0) scale(1);
+        }
+
+        40% {
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        60% {
+            transform: translateY(-4px) scale(1.02);
+        }
+    }
+
+    @keyframes auroraFloat {
+
+        0%,
+        100% {
+            transform: translate(0, 0) scale(1);
+        }
+
+        33% {
+            transform: translate(30px, 20px) scale(1.05);
+        }
+
+        66% {
+            transform: translate(-15px, 35px) scale(0.97);
+        }
+    }
+
+    @keyframes cartPulse {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1.15);
+            opacity: 0.8;
+        }
+    }
+
+    @keyframes shake {
+
+        10%,
+        90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+
+        20%,
+        80% {
+            transform: translate3d(2px, 0, 0);
+        }
+
+        30%,
+        50%,
+        70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+
+        40%,
+        60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(0.95);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Book-themed Animations */
+    @keyframes bookTiltIn {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+
+        30% {
+            transform: translateY(-6px) rotate(-3deg);
+        }
+
+        60% {
+            transform: translateY(-10px) rotate(-5deg);
+        }
+
+        100% {
+            transform: translateY(-8px) rotate(-4deg);
+        }
+    }
+
+    @keyframes bookTiltOut {
+        0% {
+            transform: translateY(-8px) rotate(-4deg);
+        }
+
+        100% {
+            transform: translateY(0) rotate(0deg);
+        }
+    }
+
+    @keyframes pageFlip {
+        0% {
+            transform: rotateY(0deg);
+        }
+
+        50% {
+            transform: rotateY(-15deg);
+        }
+
+        100% {
+            transform: rotateY(0deg);
+        }
+    }
+
+    @keyframes bookmarkDrop {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        60% {
+            transform: translateY(4px);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes inkWrite {
+        from {
+            width: 0;
+            opacity: 0;
+        }
+
+        to {
+            width: 100%;
+            opacity: 1;
+        }
+    }
+
+    /* Flash Sale Extra Keyframes */
+    @keyframes fsBoltPulse {
+        from {
+            transform: scale(1);
+            opacity: 0.8;
+        }
+
+        to {
+            transform: scale(1.3);
+            opacity: 1;
+            filter: drop-shadow(0 0 8px #ff0000);
+        }
+    }
+
+    @keyframes neonFlicker {
+
+        0%,
+        18%,
+        22%,
+        25%,
+        53%,
+        57%,
+        100% {
+            text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 90px #ff0000, 0 0 100px #ff0000, 0 0 150px #ff0000;
+        }
+
+        20%,
+        24%,
+        55% {
+            text-shadow: none;
+        }
+    }
+
+    @keyframes smokeFlow {
+        0% {
+            transform: translateY(0) translateX(0) scale(1);
+            opacity: 0.8;
+        }
+
+        50% {
+            transform: translateY(-3px) translateX(2px) scale(1.1);
+            opacity: 0.5;
+        }
+
+        100% {
+            transform: translateY(0) translateX(0) scale(1);
+            opacity: 0.8;
+        }
+    }
+}
+
+/* Standard Variable Overrides */
+:root {
+    --primary: var(--color-brand-primary, #C92127);
+    --gradient-hero: linear-gradient(135deg, var(--color-brand-primary, #C92127) 0%, #f43f5e 100%);
+}
+
+/* Custom Variants */
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant active (&.active);
+@custom-variant dropdown-active (&.dropdown-active);
+
+
+/* ============================================================ */
+/* BASE LAYER & DARK MODE MAPPING */
+/* ============================================================ */
+@layer base {
+    :root {
+        --color-page-bg: #F9F7F2;
+        /* Paper White — thay vì #f9fafb */
+        --color-surface: #ffffff;
+        --color-text-main: #1A1410;
+        /* Ink Black */
+        --color-text-muted: #5C4F3D;
+        /* Ink Muted */
+        --color-border-soft: #E8E2D8;
+        /* Paper border */
+    }
+
+    .dark {
+        --color-page-bg: #0f172a;
+        --color-surface: #1e293b;
+        --color-text-main: #f8fafc;
+        --color-text-muted: #94a3b8;
+        --color-border-soft: #334155;
+        --color-brand-primary: #f43f5e;
+
+        /* Admin dark mode overrides */
+        --admin-surface: #1e293b;
+        --admin-surface-muted: #0f172a;
+        --admin-border: #334155;
+        --admin-text-primary: #f8fafc;
+        --admin-text-muted: #94a3b8;
+        --admin-bg: #0f172a;
+    }
+
+    body {
+        font-family: var(--font-body, "Be Vietnam Pro", "Inter", sans-serif);
+        transition-property: color, background-color, border-color;
+        transition-duration: 400ms;
+        background-color: var(--color-page-bg, #F9F7F2);
+        color: var(--color-text-main, #1A1410);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+        line-height: var(--leading-card, 1.5);
+        font-size: 15px;
+        /* Slightly larger base for readability */
+    }
+
+    /* Headings — Lora Serif cho cảm giác nhà xuất bản */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-heading, "Lora", Georgia, serif);
+        letter-spacing: var(--tracking-heading, -0.02em);
+        line-height: var(--leading-card, 1.4);
+        color: var(--color-text-main, #1A1410);
+    }
+
+    /* Paragraphs — Be Vietnam Pro với line-height thoải mái */
+    p {
+        line-height: var(--leading-card, 1.6);
+    }
+
+    /* Số, giá tiền, UI nhỏ — Inter cho precision */
+    .font-ui,
+    .price,
+    [class*="font-mono"] {
+        font-family: var(--font-ui, "Inter", sans-serif);
+    }
+
+    img {
+        @apply max-w-full h-auto object-cover;
+    }
+
+    ::selection {
+        background-color: rgba(201, 33, 39, 0.15);
+        color: var(--color-brand-primary, #C92127);
+    }
+}
+
+/* ============================================================ */
+/* UTILITY LAYER — PREMIUM ENHANCEMENTS */
+/* ============================================================ */
+@layer utilities {
+
+    /* [Unified Glassmorphism] — Professional blur & depth */
+    .glassmorphism {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        @apply bg-white/70 border-white/20;
+        box-shadow: var(--shadow-premium, 0 20px 50px -12px rgba(0, 0, 0, 0.15));
+    }
+
+    .dark .glassmorphism {
+        @apply bg-slate-900/70 border-white/5;
+    }
+
+    /* [Premium Shimmer] — Alpha-based (supports any color/mode) */
+    .animate-shimmer-premium {
+        background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.15),
+                transparent);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite linear;
+    }
+
+    .dark .animate-shimmer-premium {
+        background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent);
+    }
+
+    .max-w-main {
+        max-width: var(--width-main);
+    }
+
+    .low-perf * {
+        backdrop-filter: none !important;
+        background: var(--color-surface) !important;
+    }
+}
+
+
+/* ============================================================ */
+/* COMPONENT LAYER — REUSABLE INTERFACE ELEMENTS */
+/* ============================================================ */
+@layer components {
+
+    /* [Buttons] — Using direct var() for specificity & override safety */
+    .btn-primary {
+        background-color: var(--color-primary, #C92127);
+        color: white;
+        transition: var(--transition-premium, all 0.4s cubic-bezier(0.23, 1, 0.32, 1));
+        box-shadow: var(--shadow-brand);
+        @apply inline-flex items-center justify-center rounded-[4px] px-6 py-2.5 font-bold text-sm hover:brightness-110 hover:-translate-y-1 active:scale-95;
+    }
+
+    .dark .btn-primary {
+        background-color: var(--color-brand-primary, #f43f5e);
+    }
+
+    .cta-btn-primary {
+        background: var(--gradient-hero);
+        color: white;
+        transition: var(--transition-premium, all 0.4s cubic-bezier(0.23, 1, 0.32, 1));
+        box-shadow: var(--shadow-brand);
+        @apply inline-flex items-center gap-2 px-8 py-3 rounded-[4px] font-extrabold text-sm relative overflow-hidden active:scale-95;
+    }
+
+    .cta-btn-primary::after {
+        content: '';
+        @apply absolute top-0 -left-full w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-20 transition-all duration-700;
+    }
+
+    .cta-btn-primary:hover::after {
+        @apply left-[150%];
+    }
+
+    .cta-btn-primary:hover {
+        @apply -translate-y-1;
+        box-shadow: var(--shadow-premium);
+    }
+
+    /* [Product Card] — Premium lift & interaction */
+    .product-card-container {
+        @apply h-full transition-all duration-500;
+    }
+
+    .card-premium {
+        background-color: var(--color-surface, #ffffff);
+        border: 1px solid var(--color-border-soft, #f1f5f9);
+        transition: var(--transition-premium, all 0.4s cubic-bezier(0.23, 1, 0.32, 1));
+        @apply rounded-2xl overflow-hidden hover:-translate-y-2;
+    }
+
+    .card-premium:hover {
+        box-shadow: var(--shadow-premium);
+    }
+
+    /* [Typography & Links] */
+    .view-more-link {
+        color: var(--color-brand-primary, #C92127);
+        transition: var(--transition-smooth, all 0.3s ease);
+        @apply text-sm font-bold flex items-center gap-1 hover:opacity-80 relative;
+    }
+
+    .view-more-link::after {
+        content: '';
+        background-color: var(--color-brand-primary, #C92127);
+        transition: width 0.3s ease;
+        @apply absolute -bottom-1 left-0 h-[2px] w-0;
+    }
+
+    .view-more-link:hover::after {
+        @apply w-full;
+    }
+
+    /* [Section Headings] */
+    .section-heading {
+        @apply flex items-center justify-between mb-6 md:mb-8 relative pl-5;
+    }
+
+    .section-heading::before {
+        content: '';
+        background: var(--gradient-hero);
+        box-shadow: var(--shadow-brand);
+        @apply absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-7 rounded-full;
+    }
+
+    .section-heading h2 {
+        @apply font-black text-xl md:text-2xl uppercase tracking-tighter text-slate-900;
+        font-family: var(--font-heading, "Lora", serif);
+    }
+
+    .dark .section-heading h2 {
+        @apply text-white;
+    }
+
+    /* [Interface Components] */
+    .dropdown-menu {
+        @apply hidden absolute top-full left-0 mt-2 z-50 transition-all duration-300 transform origin-top opacity-0 translate-y-2 scale-95;
+        transition: var(--transition-smooth, all 0.3s ease);
+    }
+
+    .dropdown-menu.dropdown-active {
+        @apply flex opacity-100 translate-y-0 scale-100;
+    }
+
+    .glass-card {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: var(--shadow-premium, 0 20px 50px -12px rgba(0, 0, 0, 0.15));
+        @apply rounded-3xl p-6;
+    }
+
+    .dark .glass-card {
+        background-color: rgba(15, 23, 42, 0.7);
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    /* [Form Elements] */
+    .radio-card {
+        background-color: var(--color-surface, #ffffff);
+        border: 2px solid var(--color-border-soft, #f1f5f9);
+        transition: var(--transition-smooth, all 0.3s ease);
+        @apply p-4 rounded-2xl flex items-center gap-4 cursor-pointer;
+    }
+
+    .radio-card.active {
+        border-color: var(--color-brand-primary, #C92127);
+        background-color: rgba(201, 33, 39, 0.05);
+        @apply shadow-lg;
+    }
+
+    /* [UI Polish] */
+    .animate-float {
+        animation: floatBook 3s ease-in-out infinite;
+    }
+
+    .animate-bounce-hover:hover {
+        animation: bouncePremium 0.6s ease;
+    }
+
+    .animate-shimmer {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite linear;
+    }
+
+    /* ============================================================ */
+    /* BOOK-THEMED COMPONENT CLASSES */
+    /* ============================================================ */
+
+    /* [Book Spine Card] — Card với gáy sách bên trái */
+    .book-spine-card {
+        position: relative;
+        border-radius: var(--radius-book-cover, 8px);
+        overflow: hidden;
+        box-shadow: var(--shadow-book);
+        transition: var(--transition-book);
+    }
+
+    .book-spine-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, var(--color-brand-primary, #C92127), var(--color-brand-primary-dark, #a81b20));
+        border-radius: 2px 0 0 2px;
+        box-shadow: 2px 0 6px rgba(201, 33, 39, 0.2);
+        z-index: 1;
+    }
+
+    .book-spine-card:hover {
+        transform: translateY(-6px) rotate(-1.5deg);
+        box-shadow: var(--shadow-book-hover);
+    }
+
+    /* [Book Button] — Nút bo góc như bìa sách cứng */
+    .btn-book {
+        border-radius: var(--radius-book, 4px);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        transition: var(--transition-smooth);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-book::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    /* [Bookmark Badge] — Badge hình dấu trang sách */
+    .bookmark-badge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem 0.5rem;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+        font-weight: 900;
+        font-size: 0.625rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    /* [Paper Card] — Card màu giấy */
+    .paper-card {
+        background-color: var(--color-paper, #F9F7F2);
+        border: 1px solid var(--color-paper-aged, #EDE8DC);
+        border-radius: var(--radius-book-shelf, 12px);
+        box-shadow: var(--shadow-page);
+    }
+
+    .dark .paper-card {
+        background-color: var(--color-surface, #1e293b);
+        border-color: var(--color-border-soft, #334155);
+    }
+
+    /* [Book Detail Page] — Typography cho trang chi tiết sách */
+    .product-title {
+        font-family: var(--font-heading, "Lora", Georgia, serif);
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: -0.02em;
+        color: var(--color-text-main, #1A1410);
+    }
+
+    .dark .product-title {
+        color: #f8fafc;
+    }
+
+    /* [Book Price] — Inter cho số tiền */
+    .product-price-anchor {
+        font-family: var(--font-ui, "Inter", sans-serif);
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+        font-weight: 900;
+        color: var(--color-brand-primary, #C92127);
+        letter-spacing: -0.03em;
+    }
+
+    .product-price-original {
+        font-family: var(--font-ui, "Inter", sans-serif);
+        font-size: 1rem;
+        color: #9ca3af;
+        text-decoration: line-through;
+        font-weight: 500;
+    }
+
+    /* [Prose Book] — Mô tả sách với line-height như đọc tiểu thuyết */
+    .prose-book {
+        font-family: var(--font-body, "Be Vietnam Pro", sans-serif);
+        font-size: 15px;
+        line-height: var(--leading-book, 1.75);
+        color: var(--color-text-main, #1A1410);
+        letter-spacing: 0.01em;
+    }
+
+    .dark .prose-book {
+        color: #cbd5e1;
+    }
+
+    .prose-book p+p {
+        margin-top: 1em;
+    }
+
+    /* [Section Title] — Lora cho tiêu đề section */
+    .section-title-book {
+        font-family: var(--font-heading, "Lora", Georgia, serif);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+    }
+
+    /* [Label Uppercase] — Be Vietnam Pro cho labels */
+    .label-book {
+        font-family: var(--font-body, "Be Vietnam Pro", sans-serif);
+        font-size: 0.625rem;
+        font-weight: 800;
+        letter-spacing: var(--tracking-label, 0.08em);
+        text-transform: uppercase;
+    }
+
+    .book-tilt {
+        transition: var(--transition-book);
+        transform-origin: bottom center;
+    }
+
+    .book-tilt:hover {
+        transform: translateY(-8px) rotate(-4deg);
+        box-shadow: var(--shadow-book-hover);
+    }
+
+    /* [Reading Progress Bar] — Thanh tiến trình đọc sách */
+    .reading-bar {
+        height: 3px;
+        background: linear-gradient(to right, var(--color-brand-primary, #C92127), var(--color-brand-secondary, #f39200));
+        border-radius: 0 2px 2px 0;
+        position: relative;
+    }
+
+    .reading-bar::after {
+        content: '';
+        position: absolute;
+        right: -1px;
+        top: -2px;
+        width: 7px;
+        height: 7px;
+        background: var(--color-brand-primary, #C92127);
+        border-radius: 50%;
+        box-shadow: 0 0 6px rgba(201, 33, 39, 0.5);
+    }
+
+    /* [Ink Underline] — Gạch chân kiểu mực in */
+    .ink-underline {
+        position: relative;
+        display: inline-block;
+    }
+
+    .ink-underline::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        height: 2px;
+        width: 0;
+        background: var(--color-brand-primary, #C92127);
+        border-radius: 1px;
+        transition: width 0.3s ease;
+    }
+
+    .ink-underline:hover::after {
+        width: 100%;
+    }
+
+    /* [Page Turn] — Hiệu ứng lật trang */
+    .page-turn-enter {
+        animation: pageFlip 0.4s ease-out;
+    }
+
+    /* Admin Component Classes */
+
+    /* Task 2.1 — .admin-card */
+    .admin-card {
+        background-color: var(--admin-surface, #ffffff);
+        border: 1px solid var(--admin-border, #e2e8f0);
+        border-radius: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Task 2.2 — .admin-table */
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .admin-table thead tr {
+        background-color: var(--admin-surface-muted, #f8fafc);
+    }
+
+    .admin-table th {
+        padding: 1rem 1.25rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--admin-text-muted, #64748b);
+    }
+
+    .admin-table tbody tr {
+        border-top: 1px solid var(--admin-border, #e2e8f0);
+        transition: background-color 150ms;
+    }
+
+    .admin-table tbody tr:hover {
+        background-color: color-mix(in srgb, var(--admin-surface-muted, #f8fafc) 50%, transparent);
+    }
+
+    /* Task 2.3 — .admin-btn-primary / .admin-btn-secondary */
+    .admin-btn-primary {
+        background-color: var(--color-brand-primary, #C92127);
+        color: white;
+        border-radius: 0.75rem;
+        padding: 0.625rem 1.5rem;
+        font-weight: 900;
+        box-shadow: 0 4px 12px rgba(201, 33, 39, 0.2);
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+    }
+
+    .admin-btn-primary:hover {
+        background-color: color-mix(in srgb, var(--color-brand-primary, #C92127) 90%, black);
+    }
+
+    .admin-btn-secondary {
+        background-color: var(--admin-surface-muted, #f8fafc);
+        color: var(--admin-text-primary, #0f172a);
+        border: 1px solid var(--admin-border, #e2e8f0);
+        border-radius: 0.75rem;
+        padding: 0.625rem 1.5rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    /* Task 2.4 — .admin-input */
+    .admin-input {
+        border: 1px solid var(--admin-border, #e2e8f0);
+        border-radius: 0.75rem;
+        padding: 0.625rem 1rem;
+        font-size: 0.875rem;
+        background-color: var(--admin-surface, #ffffff);
+        color: var(--admin-text-primary, #0f172a);
+        transition: border-color 150ms, box-shadow 150ms;
+        width: 100%;
+    }
+
+    .admin-input:focus {
+        outline: none;
+        border-color: var(--color-brand-primary, #C92127);
+        box-shadow: 0 0 0 3px rgba(201, 33, 39, 0.1);
+    }
+
+    /* Task 2.5 — .stat-card / .quick-action-btn */
+    .stat-card {
+        background-color: var(--admin-surface, #ffffff);
+        border: 1px solid var(--admin-border, #e2e8f0);
+        border-radius: 1rem;
+        padding: 1.25rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quick-action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--admin-surface, #ffffff);
+        border: 1px solid var(--admin-border, #e2e8f0);
+        border-radius: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+        transition: all 200ms;
+        text-decoration: none;
+        color: var(--admin-text-primary, #0f172a);
+    }
+
+    .quick-action-btn:hover {
+        border-color: rgba(201, 33, 39, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    /* ── UNIFIED SECTION SYSTEM ── */
+    /* Padding dọc chuẩn cho mọi section trang chủ - Tối ưu Overview */
+    .section-block {
+        @apply py-6 md:py-10;
+    }
+    /* Section bọc trong card trắng (gift-cards, suggestions-brands) */
+    .section-card {
+        @apply bg-white rounded-[2rem] border border-slate-100 shadow-sm overflow-hidden;
+    }
+
+    /* ── 2→3→4→5→6 Responsive Book Grid ── */
+    .grid-book-layout {
+        @apply grid gap-3 md:gap-5 items-start;
+        /* items-start: tránh card bị kéo giãn theo hàng cao nhất */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        /* Mobile: 2 columns */
+    }
+
+    @media (min-width: 640px) {
+        .grid-book-layout {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .grid-book-layout {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .grid-book-layout {
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+        }
+    }
+
+    @media (min-width: 1536px) {
+        .grid-book-layout {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+    }
+
+    .btn-view-all-premium {
+        @apply inline-flex items-center gap-2 px-10 py-3.5 rounded-xl text-sm font-black uppercase tracking-widest transition-all duration-500 border-2 border-dashed border-slate-200 dark:border-slate-700 text-slate-500 hover:text-primary hover:border-primary/50 hover:bg-[var(--color-paper,#F9F7F2)] hover:shadow-xl hover:-translate-y-1 active:scale-95;
+    }
+
+    /* Chatbot Button (replacing Back-to-top) */
+    .chatbot-trigger {
+        @apply fixed bottom-24 right-6 md:bottom-8 md:right-8 w-14 h-14 rounded-2xl text-white flex items-center justify-center shadow-2xl transition-all duration-500 hover:scale-110 hover:-rotate-6 active:scale-90 cursor-pointer;
+        background: linear-gradient(135deg, var(--color-primary), #fb7185);
+        z-index: 1000;
+    }
+
+    .chatbot-pulse {
+        @apply absolute inset-0 rounded-2xl animate-ping;
+        background-color: rgba(201, 33, 39, 0.3);
+    }
+}
+
+/* ============================================================ */
+/* REMAINING LEGACY & SPECIAL UTILITIES (Cleaned) */
+/* ============================================================ */
+#back-to-top {
+    display: none !important;
+}
+
+/* Replaced by chatbot */
+
+#reading-progress {
+    background: var(--gradient-hero);
+    @apply fixed top-0 left-0 h-1 w-0 z-[10000];
+    transition: var(--transition-smooth, all 0.3s ease);
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--color-brand-primary, #C92127), var(--color-brand-primary-dark, #a81b20));
+    @apply rounded-full;
+}
+
+.dark ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+}
+
+/* Global Font Settings — "The Classic Publisher" */
+h1,
+h2,
+h3,
+h4,
+.brand-font,
+.font-heading {
+    font-family: var(--font-heading, "Lora", Georgia, serif);
+    letter-spacing: var(--tracking-heading, -0.02em);
+}
+
+body {
+    font-family: var(--font-body, "Be Vietnam Pro", "Inter", sans-serif);
+}
+
+/* Số, giá, badge — Inter cho precision */
+.font-mono,
+.price-display,
+[data-price] {
+    font-family: var(--font-ui, "Inter", sans-serif);
+}
+
+/* ============================================================ */
+/* FLASH SALE — PREMIUM MIDNIGHT TRANSFORMATION */
+/* ============================================================ */
+.fs-midnight-container {
+    background: linear-gradient(135deg, #FF0055 0%, #FF5500 50%, #FFB800 100%);
+    position: relative;
+    z-index: 1;
+}
+
+.fs-midnight-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: -1;
+}
+
+.neon-red-glow {
+    color: #ffffff;
+    text-shadow:
+        0 0 7px #fff,
+        0 0 10px #fff,
+        0 0 21px #fff,
+        0 0 42px #ff4d4d,
+        0 0 82px #ff4d4d,
+        0 0 92px #ff4d4d,
+        0 0 102px #ff4d4d,
+        0 0 151px #ff4d4d;
+}
+
+.neon-flicker-slow {
+    animation: neonFlicker 3s infinite alternate;
+}
+
+.fs-digital-box {
+    @apply flex flex-col items-center gap-1;
+}
+
+.fs-digital-digit-container {
+    @apply flex gap-1;
+}
+
+.fs-digital-digit {
+    @apply bg-red-600 border border-white/30 rounded flex items-center justify-center font-mono font-black text-xl w-8 h-10 shadow-[0_0_15px_rgba(220,38,38,0.6)];
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.flash-fire-progress {
+    background: linear-gradient(90deg, #ff4c4c 0%, #ff9068 50%, #f9cb28 100%) !important;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+    position: relative;
+}
+
+.flash-fire-progress::after {
+    content: '🔥';
+    position: absolute;
+    right: -6px;
+    top: -10px;
+    font-size: 14px;
+    animation: smokeFlow 2s infinite ease-in-out;
+}
+
+
+/* ============================================================ */
+/* WEEKLY RANKING — JS-rendered component classes               */
+/* Only styles that Tailwind utilities cannot express           */
+/* ============================================================ */
+@layer components {
+    /* Tab active state — toggled by JS */
+    .wr-tab.active, .ct-tab.active {
+        background-color: var(--color-brand-primary, #C92127);
+        color: white;
+        box-shadow: 0 4px 12px rgba(201, 33, 39, 0.2);
+    }
+    .wr-tab:hover:not(.active), .ct-tab:hover:not(.active) {
+        background-color: var(--color-paper-aged, #EDE8DC);
+        color: var(--color-brand-primary);
+    }
+
+    /* Rank item — JS renders these, active toggled by JS */
+    .wr-item {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.625rem 0.875rem;
+        cursor: pointer;
+        position: relative;
+        transition: var(--transition-book);
+        border-left: 3px solid transparent;
+        background-color: transparent;
+    }
+    .wr-item:hover {
+        background-color: var(--color-paper-warm, #F5F0E8);
+        transform: translateX(3px);
+        z-index: 2;
+    }
+    .wr-item--active {
+        background-color: var(--color-paper, #F9F7F2);
+        border-left-color: var(--color-brand-primary, #C92127);
+        box-shadow: inset 8px 0 16px -8px rgba(0,0,0,0.04);
+    }
+
+    /* Ribbon Indicator */
+    .wr-item--active::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 15%;
+        bottom: 15%;
+        width: 3px;
+        background: linear-gradient(to bottom, #C92127, #a81b20);
+        box-shadow: 2px 0 6px rgba(201, 33, 39, 0.25);
+        border-radius: 0 2px 2px 0;
+        animation: bookmarkDrop 0.3s ease-out;
+    }
+
+    /* Rank number — subtle watermark */
+    .rank-number {
+        font-family: var(--font-heading, 'Lora'), serif;
+        font-weight: 900;
+        font-size: 3rem;
+        line-height: 1;
+        color: var(--color-brand-primary);
+        opacity: 0.07;
+        user-select: none;
+        transition: var(--transition-smooth);
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 0;
+        pointer-events: none;
+        font-style: italic;
+    }
+
+    .wr-item--active .rank-number {
+        opacity: 0.12;
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    /* Cover */
+    .wr-item__cover-wrap { position: relative; z-index: 1; flex-shrink: 0; }
+    .wr-item__cover { width: 40px; height: 54px; object-fit: cover; border-radius: 3px; box-shadow: var(--shadow-book); }
+    .wr-item__info { flex: 1; min-width: 0; z-index: 1; position: relative; }
+    .wr-item__title { font-weight: 600; font-size: 0.8125rem; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #111827; margin-bottom: 0.125rem; }
+    .wr-item__author { font-size: 0.6875rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 0.125rem; }
+    .wr-item__score { font-weight: 700; font-size: 0.6875rem; color: #16a34a; }
+    .wr-trend { font-size: 0.8125rem; color: #9ca3af; flex-shrink: 0; z-index: 1; }
+
+    /* Preview Section — Gradient Paper Texture (Reading Desk Effect) */
+    .wr-preview {
+        background: linear-gradient(135deg, #F9F7F2 0%, #F5F0E8 100%),
+                    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+        position: relative;
+        overflow: hidden;
+        border-radius: 0 0 16px 0;
+    }
+
+    .wr-preview::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.4) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .wr-preview__inner {
+        opacity: 1;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        display: flex;
+        flex-direction: column;
+        gap: 0;          /* gap handled by JS-rendered classes */
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        overflow: hidden; /* prevent child overflow */
+    }
+    .wr-preview--fading .wr-preview__inner { 
+        opacity: 0; 
+        transform: translateY(10px);
+    }
+
+    /* Preview cover — responsive size */
+    .wr-preview__cover { width: 100px; height: 140px; object-fit: cover; border-radius: 6px; box-shadow: var(--shadow-book); flex-shrink: 0; }
+    @media (min-width: 1024px) { .wr-preview__cover { width: 160px; height: 220px; } }
+
+    .wr-preview__content { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .wr-preview__title { font-family: var(--font-heading, 'Lora'), serif; font-weight: 800; font-size: 1.5rem; line-height: 1.3; color: var(--color-ink, #1A1410); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+    .wr-preview__authors { font-size: 0.9375rem; font-weight: 500; color: var(--color-ink-muted, #5C4F3D); margin-bottom: 0.25rem; }
+    .wr-preview__publisher { font-size: 0.8125rem; color: #94a3b8; margin-bottom: 1rem; font-style: italic; }
+    
+    .wr-preview__rating { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+    .wr-preview__hot-meter { height: 4px; width: 80px; background: #e2e8f0; border-radius: 2px; overflow: hidden; }
+    .wr-preview__hot-fill { height: 100%; background: linear-gradient(to right, #fbbf24, #f59e0b); }
+    .wr-preview__rating-text { font-size: 0.8125rem; font-weight: 700; color: #f59e0b; }
+
+    .wr-preview__price-row { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .wr-preview__price { font-family: var(--font-ui, 'Inter'), sans-serif; font-weight: 900; font-size: 1.75rem; color: var(--color-brand-primary, #C92127); letter-spacing: -0.02em; }
+    
+    .wr-preview__desc { font-size: 0.9375rem; line-height: 1.8; color: var(--color-ink-muted, #5C4F3D); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 1.5rem; }
+    
+    .wr-preview__actions { @apply flex flex-col gap-3 w-full; }
+    
+    .wr-preview__btn-buy { 
+        @apply inline-flex items-center gap-2 px-6 lg:px-10 py-4 rounded-2xl bg-brand-primary text-white font-black text-sm uppercase tracking-widest shadow-brand transition-all duration-300 hover:-translate-y-1 hover:brightness-110 active:scale-95;
+    }
+    
+    .wr-preview__btn-detail { 
+        @apply inline-flex items-center justify-center w-14 h-14 rounded-2xl border-2 border-slate-200 text-slate-300 transition-all duration-300 hover:text-red-500 hover:border-red-100 active:scale-95 bg-white;
+    }
+
+    /* Enriched UI Elements */
+    .wr-preview__stock-status {
+        @apply flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider mb-2 w-fit;
+    }
+    .wr-preview__stock-status--in { @apply bg-green-50 text-green-600 border border-green-100; }
+    .wr-preview__stock-status--out { @apply bg-red-50 text-red-600 border border-red-100; }
+
+    .wr-preview__tags { @apply flex flex-wrap gap-1.5 mb-4; }
+    .wr-preview__tag { 
+        @apply px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[10px] font-medium border border-slate-200/50 hover:bg-slate-200 hover:text-slate-700 transition-colors;
+    }
+
+    .wr-preview__policy-grid {
+        @apply grid grid-cols-3 gap-3 p-3 bg-white/50 rounded-xl border border-slate-200/50 mb-6 shadow-sm;
+    }
+    .wr-preview__policy-item {
+        @apply flex flex-col items-center text-center gap-1;
+    }
+    .wr-preview__policy-icon {
+        @apply w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-lg;
+    }
+    .wr-preview__policy-label {
+        @apply text-[9px] font-bold text-slate-500 uppercase leading-tight;
+    }
+
+    .wr-preview__area-1 {
+        @apply flex flex-col md:flex-row gap-4 items-start;
+        width: 100%;
+        padding-bottom: 1rem;
+    }
+
+    .wr-preview__area-2 {
+        @apply border-t border-slate-200 pt-4;
+        width: 100%;
+    }
+
+    .wr-preview__title {
+        @apply font-black tracking-tight leading-tight text-slate-900 mb-4;
+        font-family: var(--font-heading, 'Lora'), serif;
+    }
+
+    .wr-preview__desc { 
+        @apply text-slate-600 italic font-medium relative pl-6 border-l-2 border-slate-100;
+        font-size: 1rem; 
+        line-height: 1.8; 
+    }
+
+    .wr-preview__specs table td {
+        @apply transition-colors duration-200;
+    }
+    .wr-preview__specs table tr:last-child {
+        @apply border-b-0;
+    }
+
+    /* Policy Overhaul */
+    .wr-policy-card {
+        @apply flex gap-4 p-4 rounded-xl bg-white border border-slate-50 shadow-sm hover:border-slate-100 hover:shadow-md transition-all duration-300;
+    }
+
+    /* Favorites Animation */
+    button.wr-favorite-btn.active {
+        @apply text-red-500 border-red-100 bg-red-50/30;
+    }
+    button.wr-favorite-btn.active span {
+        font-variation-settings: 'FILL' 1;
+    }
+
+    @media (max-width: 1023px) {
+        .wr-preview__area-1 {
+            @apply flex-col items-center text-center;
+            gap: 2.5rem;
+        }
+        .wr-preview__content {
+            @apply w-full;
+        }
+    }
+
+    .wr-preview__cover--placeholder {
+        @apply flex flex-col items-center justify-center p-8 text-center text-white font-bold leading-tight shadow-2xl;
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        border-right: 6px solid rgba(0,0,0,0.2);
+    }
+    .wr-preview__cover--placeholder::before {
+        content: '\e865'; /* book icon */
+        font-family: 'Material Symbols Outlined';
+        @apply text-4xl mb-2 opacity-50;
+    }
+
+    /* Empty category state (JS-rendered) */
+    .wr-empty-category { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 2rem 1rem; color: #9ca3af; text-align: center; font-size: 0.875rem; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        .wr-preview__inner, .wr-item, .wr-tab, .rank-number { transition: none !important; }
+    }
+}
+
+/* ============================================================ */
+/* SHOPPING TREND — Xu Hướng Mua Sắm                           */
+/* ============================================================ */
+@layer components {
+    /* Category sub-tab active state */
+    .st-cat-tab.active {
+        background-color: var(--color-brand-primary, #C92127);
+        color: #fff;
+        border-color: var(--color-brand-primary, #C92127);
+    }
+}
+
+/* ── Category mega menu ── */
+.mega-cat-btn.active,
+.mega-cat-btn:hover {
+    background: #fff;
+    color: var(--color-brand-primary, #C92127);
+}
+
+.mega-cat-btn.active {
+    border-left: 3px solid var(--color-brand-primary, #C92127);
+    padding-left: calc(1rem - 3px);
+    font-weight: 700;
+}
+
+/* Override: mega-menu must use flex not the global .dropdown-menu hidden/flex */
+#mega-menu.dropdown-menu {
+    display: block !important;
+}
+#mega-menu.dropdown-menu:not(.dropdown-active) {
+    display: block !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+#mega-menu.dropdown-menu.dropdown-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* ── Scrollbar hide utility ── */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Tab scroll wrapper with arrow buttons ── */
+.tab-scroll-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.tab-scroll-inner {
+    flex: 1;
+    min-width: 0;
+}
+
+.tab-scroll-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 100%;
+    min-height: 44px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    transition: color 0.15s, background 0.15s;
+    z-index: 2;
+}
+.tab-scroll-btn:hover {
+    color: var(--color-brand-primary, #C92127);
+    background: #fef2f2;
+}
+.tab-scroll-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+.tab-scroll-left {
+    border-right: 1px solid #f1f5f9;
+}
+.tab-scroll-right {
+    border-left: 1px solid #f1f5f9;
+}
+
+/* ── Unified tab pill style ── */
+.tab-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.375rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    background: white;
+    letter-spacing: 0.02em;
+}
+.tab-pill:hover {
+    border-color: rgba(201, 33, 39, 0.4);
+    color: var(--color-brand-primary, #C92127);
+}
+.tab-pill.active {
+    background: var(--color-brand-primary, #C92127);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(201, 33, 39, 0.25);
+}
