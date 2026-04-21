@@ -48,6 +48,7 @@ use App\Http\Controllers\PageController;
 Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/api/weekly-ranking', [HomeController::class, 'getWeeklyRankingApi'])->name('api.weekly-ranking');
 Route::get('/api/shopping-trend', [HomeController::class, 'getShoppingTrendApi'])->name('api.shopping-trend');
+Route::get('/api/search-suggestions', [HomeController::class, 'searchSuggestionsApi'])->name('api.search-suggestions');
 
 // ============================================================================
 // XÁC THỰC (Authentication)

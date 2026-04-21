@@ -62,6 +62,135 @@ class HomeController extends Controller
         return view('home', $data);
     }
 
+    /**
+     * Two-pass fuzzy search:
+     * Pass 1: exact phrase + condensed (no-space) match  → fast SQL
+     * Pass 2: bigram scoring in PHP (only when pass1 empty) → handles typos like "onpiece"
+     */
+    private function fuzzyBookSearch(string $rawQ, int $limit = 6): \Illuminate\Support\Collection
+    {
+        $q        = mb_strtolower(trim($rawQ));
+        $qNoSpace = str_replace(' ', '', $q);
+
+        // Pass 1 — SQL LIKE
+        $pass1 = Book::with('authors')
+            ->where('status', BookStatus::InStock)
+            ->where(function ($sub) use ($q, $qNoSpace) {
+                $sub->whereRaw('LOWER(title) LIKE ?', ["%{$q}%"])
+                    ->orWhereRaw("REPLACE(LOWER(title), ' ', '') LIKE ?", ["%{$qNoSpace}%"])
+                    ->orWhereHas('authors', fn($t) =>
+                        $t->whereRaw('LOWER(name) LIKE ?', ["%{$q}%"])
+                          ->orWhereRaw("REPLACE(LOWER(name), ' ', '') LIKE ?", ["%{$qNoSpace}%"])
+                    );
+            })
+            ->orderByDesc('sold_count')
+            ->take($limit)
+            ->get();
+
+        if ($pass1->isNotEmpty()) return $pass1;
+
+        // Pass 2 — bigram scoring (PHP-side, only on title)
+        $bigrams = [];
+        for ($i = 0; $i < mb_strlen($q) - 1; $i++) {
+            $bigrams[] = mb_substr($q, $i, 2);
+        }
+        if (count($bigrams) < 3) return collect();
+
+        $needed = (int) ceil(count($bigrams) * 0.8);
+
+        $candidates = Book::with('authors')
+            ->where('status', BookStatus::InStock)
+            ->select('id', 'title', 'slug', 'cover_image', 'sale_price', 'sold_count')
+            ->get();
+
+        $scored = $candidates
+            ->map(function ($book) use ($bigrams, $needed) {
+                $titleLower = mb_strtolower($book->title);
+                $matchCount = 0;
+                foreach ($bigrams as $bg) {
+                    if (mb_strpos($titleLower, $bg) !== false) $matchCount++;
+                }
+                $book->_score = $matchCount;
+                return $book;
+            })
+            ->filter(fn($b) => $b->_score >= $needed)
+            ->sortByDesc('_score')
+            ->take($limit)
+            ->values();
+
+        // Load authors for scored results
+        if ($scored->isNotEmpty()) {
+            $scored->load('authors');
+        }
+
+        return $scored;
+    }
+
+    public function searchSuggestionsApi(Request $request)
+    {
+        $q = trim($request->input('q', ''));
+
+        if (strlen($q) >= 2) {
+            $books = $this->fuzzyBookSearch($q, 6)
+                ->map(fn($book) => [
+                    'id'     => $book->id,
+                    'title'  => $book->title,
+                    'slug'   => $book->slug,
+                    'image'  => $book->cover_image_url,
+                    'price'  => $book->sale_price,
+                    'author' => $book->authors->pluck('name')->implode(', '),
+                ]);
+
+            return response()->json(['type' => 'results', 'books' => $books]);
+        }
+
+        // Default: hot keywords + featured categories
+        $hotKeywords = collect();
+        if (\Illuminate\Support\Facades\Schema::hasTable('search_histories')) {
+            $hotKeywords = \Illuminate\Support\Facades\DB::table('search_histories')
+                ->select('keyword', \Illuminate\Support\Facades\DB::raw('count(*) as cnt'))
+                ->groupBy('keyword')
+                ->orderByDesc('cnt')
+                ->limit(6)
+                ->get()
+                ->map(fn($r) => [
+                    'keyword' => $r->keyword,
+                    'image'   => null,
+                ]);
+        }
+        if ($hotKeywords->isEmpty()) {
+            $hotKeywords = Book::where('status', BookStatus::InStock)
+                ->orderByDesc('sold_count')
+                ->take(6)
+                ->get()
+                ->map(fn($b) => [
+                    'keyword' => $b->title,
+                    'image'   => $b->cover_image_url,
+                ]);
+        }
+
+        $categories = \App\Models\Category::where('is_visible', true)
+            ->whereNull('parent_id')
+            ->orderBy('sort_order')
+            ->take(4)
+            ->get()
+            ->map(fn($c) => [
+                'id'    => $c->id,
+                'name'  => $c->name,
+                'image' => $c->image ? asset('storage/' . $c->image) : null,
+                'slug'  => $c->slug,
+            ]);
+
+        $flashSale = \App\Models\FlashSale::active()->first();
+
+        return response()->json([
+            'type'        => 'default',
+            'hotKeywords' => $hotKeywords,
+            'categories'  => $categories,
+            'flashSale'   => $flashSale ? ['name' => $flashSale->name] : null,
+        ]);
+    }
+
     public function getShoppingTrendApi(Request $request)
     {
         $period = in_array($request->input('period'), ['day', 'week', 'month', 'year'])

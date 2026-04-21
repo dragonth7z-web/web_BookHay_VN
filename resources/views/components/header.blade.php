@@ -103,15 +103,87 @@
         </div>
 
         {{-- Search bar – Pill shape --}}
-        <div class="flex-grow max-w-2xl relative z-[1001]">
+        <div class="flex-grow max-w-2xl relative z-[1001]" id="search-wrapper">
             <div class="relative flex items-center w-full group/search">
                 <input
                     class="w-full pl-6 pr-14 py-3.5 rounded-xl border border-gray-200/80 bg-gray-50/50 hover:bg-white focus:bg-white focus:outline-none focus:ring-8 focus:ring-brand-primary/5 focus:border-brand-primary/30 text-sm shadow-sm hover:shadow-md transition-all duration-500 search-input-main"
-                    placeholder="Tìm kiếm tác phẩm, tác giả hoặc thể loại..." type="text" id="search-input">
-                <button
+                    placeholder="Tìm kiếm tác phẩm, tác giả hoặc thể loại..." type="text" id="search-input"
+                    autocomplete="off">
+                <button id="search-submit-btn"
                     class="absolute right-2 w-10 h-10 bg-brand-primary text-white rounded-[4px] hover:bg-brand-primary-dark hover:scale-105 hover:shadow-brand transition-all flex items-center justify-center">
                     <span class="material-symbols-outlined text-xl">search</span>
                 </button>
+            </div>
+
+            {{-- Search Dropdown Panel --}}
+            <div id="search-dropdown"
+                class="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-[1002] hidden"
+                style="max-height: 520px; overflow-y: auto;">
+
+                {{-- Flash Sale Banner --}}
+                <div id="sd-flash-banner" class="hidden">
+                    <div class="mx-4 mt-4 mb-2 px-5 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-rose-500 text-white font-bold text-sm cursor-pointer hover:opacity-90 transition-opacity flex items-center gap-2"
+                        onclick="window.location.href='{{ route('flash-sale.index') }}'">
+                        <span class="material-symbols-outlined text-lg">bolt</span>
+                        <span id="sd-flash-name">Sale Giữa Tháng - Deal Bao La</span>
+                    </div>
+                </div>
+
+                {{-- Hot Keywords --}}
+                <div id="sd-keywords-section" class="px-4 pt-4 pb-2">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-sm font-black text-gray-800 flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px] text-brand-primary">trending_up</span>
+                            Từ khóa hot
+                        </h4>
+                        <button onclick="window.__searchDropdown?.refreshDefault()" class="text-gray-400 hover:text-gray-600 transition-colors" title="Làm mới">
+                            <span class="material-symbols-outlined text-[18px]">refresh</span>
+                        </button>
+                    </div>
+                    <div id="sd-keywords-grid" class="grid grid-cols-3 gap-2">
+                        {{-- Injected by JS --}}
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-100 mx-4 my-2"></div>
+
+                {{-- Featured Categories --}}
+                <div id="sd-categories-section" class="px-4 pb-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-sm font-black text-gray-800 flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[18px] text-brand-primary">grid_view</span>
+                            Danh mục nổi bật
+                        </h4>
+                        <button onclick="window.__searchDropdown?.refreshDefault()" class="text-gray-400 hover:text-gray-600 transition-colors" title="Làm mới">
+                            <span class="material-symbols-outlined text-[18px]">refresh</span>
+                        </button>
+                    </div>
+                    <div id="sd-categories-grid" class="grid grid-cols-4 gap-3">
+                        {{-- Injected by JS --}}
+                    </div>
+                </div>
+
+                {{-- Live Search Results --}}
+                <div id="sd-results-section" class="hidden px-4 py-3">
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Kết quả tìm kiếm</p>
+                    <div id="sd-results-list" class="space-y-1"></div>
+                    <a id="sd-view-all-link" href="{{ route('books.search') }}"
+                        class="mt-3 flex items-center justify-center gap-1 text-xs font-bold text-brand-primary hover:underline py-2">
+                        Xem tất cả kết quả
+                        <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    </a>
+                </div>
+
+                {{-- Loading --}}
+                <div id="sd-loading" class="hidden px-4 py-6 text-center">
+                    <div class="inline-block w-5 h-5 border-2 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+
+                {{-- No results --}}
+                <div id="sd-empty" class="hidden px-4 py-6 text-center">
+                    <span class="material-symbols-outlined text-3xl text-gray-300 block mb-2">search_off</span>
+                    <p class="text-sm text-gray-400 font-medium">Không tìm thấy kết quả</p>
+                </div>
             </div>
         </div>
 

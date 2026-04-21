@@ -16,10 +16,51 @@ class BookController extends Controller
             ->where('status', BookStatus::InStock);
 
         if ($request->filled('q')) {
-            $kw = $request->q;
-            $query->where(function ($q) use ($kw) {
-                $q->where('title', 'like', "%$kw%")->orWhereHas('authors', fn($t) => $t->where('name', 'like', "%$kw%"));
-            });
+            $rawQ     = trim($request->q);
+            $q        = mb_strtolower($rawQ);
+            $qNoSpace = str_replace(' ', '', $q);
+
+            // Pass 1: SQL LIKE (exact + condensed)
+            $pass1Ids = Book::where('status', BookStatus::InStock)
+                ->where(function ($sub) use ($q, $qNoSpace) {
+                    $sub->whereRaw('LOWER(title) LIKE ?', ["%{$q}%"])
+                        ->orWhereRaw("REPLACE(LOWER(title), ' ', '') LIKE ?", ["%{$qNoSpace}%"])
+                        ->orWhereHas('authors', fn($t) =>
+                            $t->whereRaw('LOWER(name) LIKE ?', ["%{$q}%"])
+                              ->orWhereRaw("REPLACE(LOWER(name), ' ', '') LIKE ?", ["%{$qNoSpace}%"])
+                        );
+                })
+                ->pluck('id');
+
+            if ($pass1Ids->isNotEmpty()) {
+                $query->whereIn('id', $pass1Ids);
+            } else {
+                // Pass 2: bigram scoring
+                $bigrams = [];
+                for ($i = 0; $i < mb_strlen($q) - 1; $i++) {
+                    $bigrams[] = mb_substr($q, $i, 2);
+                }
+                if (count($bigrams) >= 3) {
+                    $needed = (int) ceil(count($bigrams) * 0.8);
+                    $allBooks = Book::where('status', BookStatus::InStock)->select('id', 'title')->get();
+                    $matchedIds = $allBooks->filter(function ($book) use ($bigrams, $needed) {
+                        $tl = mb_strtolower($book->title);
+                        $cnt = 0;
+                        foreach ($bigrams as $bg) {
+                            if (mb_strpos($tl, $bg) !== false) $cnt++;
+                        }
+                        return $cnt >= $needed;
+                    })->pluck('id');
+
+                    if ($matchedIds->isNotEmpty()) {
+                        $query->whereIn('id', $matchedIds);
+                    } else {
+                        $query->whereRaw('1 = 0'); // no results
+                    }
+                } else {
+                    $query->whereRaw('1 = 0');
+                }
+            }
         }
 
         if ($request->filled('category')) {
