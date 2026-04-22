@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\Order;
 use App\Models\Review;
+use App\Models\Order;
 use App\Models\ShippingAddress;
-use App\Models\Book;
 use App\Enums\OrderStatus;
+use App\Services\NotificationService;
+use App\Services\WishlistService;
+use App\Services\DashboardService;
 
 class AccountController extends Controller
 {
+    public function __construct(
+        private NotificationService $notificationService,
+        private WishlistService $wishlistService,
+        private DashboardService $dashboardService
+    ) {}
+
     private function getUser(): ?User
     {
         return User::find(session('user_id'));
@@ -21,23 +29,15 @@ class AccountController extends Controller
     public function dashboard()
     {
         $user = $this->getUser();
-        if (!$user)
+        if (!$user) {
             return redirect()->route('login');
+        }
 
-        $recentOrders = Order::where('user_id', $user->id)
-            ->with('items.book')
-            ->latest()
-            ->take(5)
-            ->get();
+        $recentOrders    = $this->dashboardService->getRecentOrders($user->id);
+        $orderStats      = $this->dashboardService->getOrderStats($user->id);
+        $currentlyReading = $this->dashboardService->getCurrentlyReading($user->id);
 
-        $orderStats = [
-            'total' => Order::where('user_id', $user->id)->count(),
-            'pending' => Order::where('user_id', $user->id)->where('status', OrderStatus::Pending)->count(),
-            'shipping' => Order::where('user_id', $user->id)->where('status', OrderStatus::Shipping)->count(),
-            'completed' => Order::where('user_id', $user->id)->where('status', OrderStatus::Completed)->count(),
-        ];
-
-        return view('account.dashboard', compact('user', 'recentOrders', 'orderStats'));
+        return view('account.dashboard', compact('user', 'recentOrders', 'orderStats', 'currentlyReading'));
     }
 
     public function profile()
@@ -52,10 +52,10 @@ class AccountController extends Controller
         $user = $this->getUser();
 
         $request->validate([
-            'name' => 'required|string|max:100',
-            'phone' => 'nullable|string|max:20',
+            'name'          => 'required|string|max:100',
+            'phone'         => 'nullable|string|max:20',
             'date_of_birth' => 'nullable|date',
-            'gender' => 'nullable|in:male,female,other',
+            'gender'        => 'nullable|in:male,female,other',
         ]);
 
         $user->update($request->only(['name', 'phone', 'date_of_birth', 'gender']));
@@ -63,7 +63,7 @@ class AccountController extends Controller
         if ($request->filled('password')) {
             $request->validate([
                 'current_password' => 'required',
-                'password' => 'required|min:6|confirmed',
+                'password'         => 'required|min:6|confirmed',
             ]);
 
             if (!Hash::check($request->current_password, $user->password)) {
@@ -105,30 +105,20 @@ class AccountController extends Controller
     public function wishlist()
     {
         $user = $this->getUser();
-        $books = $user->readingLists()->with('book')->latest()->paginate(12);
+        $books = $this->wishlistService->getWishlistForUser($user->id);
         return view('account.wishlist', compact('user', 'books'));
     }
 
     public function toggleWishlist(Request $request, $bookId)
     {
         $user = $this->getUser();
-        $exists = $user->readingLists()->where('book_id', $bookId)->exists();
-
-        if ($exists) {
-            $user->readingLists()->where('book_id', $bookId)->delete();
-            $message = 'Đã xóa khỏi danh sách yêu thích.';
-            $isWishlisted = false;
-        } else {
-            $user->readingLists()->create(['book_id' => $bookId, 'user_id' => $user->id]);
-            $message = 'Đã thêm vào danh sách yêu thích!';
-            $isWishlisted = true;
-        }
+        $result = $this->wishlistService->toggleWishlist($user->id, (int) $bookId);
 
         if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'wishlisted' => $isWishlisted, 'message' => $message]);
+            return response()->json(['success' => true] + $result);
         }
 
-        return back()->with('success', $message);
+        return back()->with('success', $result['message']);
     }
 
     public function reviews()
@@ -147,5 +137,38 @@ class AccountController extends Controller
         $user = $this->getUser();
         $readingLists = $user->readingLists()->with('book')->latest()->paginate(12);
         return view('account.bookshelf', compact('user', 'readingLists'));
+    }
+
+    public function notifications(Request $request)
+    {
+        $user = $this->getUser();
+        $notifications = $this->notificationService->getNotificationsForUser($user->id, $request->query('type'));
+        $unreadCount   = $this->notificationService->getUnreadCountForUser($user->id);
+
+        return view('account.notifications', compact('user', 'notifications', 'unreadCount'));
+    }
+
+    public function markNotificationRead(Request $request, $id)
+    {
+        $user = $this->getUser();
+        $this->notificationService->markAsRead((int) $id, $user->id);
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return back();
+    }
+
+    public function markAllNotificationsRead(Request $request)
+    {
+        $user = $this->getUser();
+        $this->notificationService->markAllAsRead($user->id);
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return back()->with('success', 'Đã đánh dấu tất cả thông báo là đã đọc.');
     }
 }

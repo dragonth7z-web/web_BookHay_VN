@@ -111,6 +111,9 @@ Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => 'auth.c
         Route::get('bookshelf', 'bookshelf')->name('bookshelf');
         Route::get('wishlist', 'wishlist')->name('wishlist');
         Route::post('wishlist/{book}', 'toggleWishlist')->name('wishlist.toggle');
+        Route::get('notifications', 'notifications')->name('notifications');
+        Route::post('notifications/{id}/read', 'markNotificationRead')->name('notifications.read');
+        Route::post('notifications/read-all', 'markAllNotificationsRead')->name('notifications.read-all');
         Route::get('reviews', 'reviews')->name('reviews');
     });
 });

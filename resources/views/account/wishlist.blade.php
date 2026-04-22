@@ -10,7 +10,6 @@
 
             {{-- ── Sidebar ── --}}
             <aside class="w-full lg:w-64 flex-shrink-0">
-                {{-- Profile info --}}
                 <div class="flex items-center gap-4 mb-6 px-2">
                     <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary bg-gray-100">
                         @if($user->avatar)
@@ -25,7 +24,6 @@
                     </div>
                 </div>
 
-                {{-- Navigation --}}
                 <nav class="space-y-1">
                     <a href="{{ route('account.profile') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
@@ -41,6 +39,11 @@
                         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold bg-primary text-white shadow-[0_6px_20px_rgba(201,33,39,0.25)] transition-all duration-200">
                         <span class="material-symbols-outlined text-xl">favorite</span>
                         <span>Sách yêu thích</span>
+                    </a>
+                    <a href="{{ route('account.notifications') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
+                        <span class="material-symbols-outlined text-xl">notifications</span>
+                        <span>Thông báo</span>
                     </a>
                     <a href="#"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
@@ -81,11 +84,8 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                         <div>
                             <h1 class="text-2xl font-bold text-gray-900">Danh sách yêu thích</h1>
-                            <p class="text-sm text-gray-500 mt-0.5">
-                                Quản lý những tác phẩm bạn đã lưu để theo dõi và mua sau.
-                            </p>
+                            <p class="text-sm text-gray-500 mt-0.5">Quản lý những tác phẩm bạn đã lưu để theo dõi và mua sau.</p>
                         </div>
-                        {{-- Filter tabs --}}
                         <div class="flex bg-gray-100 p-1 rounded-xl gap-1 self-start sm:self-auto">
                             <button id="tab-all"
                                 onclick="filterWishlist('all')"
@@ -106,16 +106,11 @@
                 @if($books->count() > 0)
                     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4" id="wishlist-grid">
                         @foreach($books as $item)
-                            @php
-                                $book = $item->book;
-                                if (!$book) continue;
-                                $price      = $book->sale_price ?? $book->original_price ?? 0;
-                                $origPrice  = $book->original_price ?? 0;
-                                $hasDiscount = $origPrice > 0 && $price < $origPrice;
-                                $isOutOfStock = $book->stock !== null && $book->stock <= 0;
-                                $discountPct  = $hasDiscount ? round((1 - $price / $origPrice) * 100) : 0;
-                            @endphp
-                            <div class="group bg-white rounded-[18px] border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(201,33,39,0.12)] hover:border-primary/20 transition-all duration-300 overflow-hidden wishlist-card {{ $hasDiscount ? 'has-sale' : '' }}"
+                            {{-- $book->has_discount, $book->is_out_of_stock, etc. come from Model Accessors --}}
+                            @php $book = $item->book; @endphp
+                            @if(!$book) @continue @endif
+
+                            <div class="group bg-white rounded-[18px] border border-gray-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(201,33,39,0.12)] hover:border-primary/20 transition-all duration-300 overflow-hidden wishlist-card {{ $book->has_discount ? 'has-sale' : '' }}"
                                 data-book-id="{{ $book->id }}">
 
                                 {{-- Book Cover --}}
@@ -127,18 +122,16 @@
                                             loading="lazy">
                                     </a>
 
-                                    {{-- Badges --}}
-                                    @if($isOutOfStock)
+                                    @if($book->is_out_of_stock)
                                         <span class="absolute top-3 left-3 bg-gray-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase tracking-wide">
                                             Hết hàng
                                         </span>
-                                    @elseif($hasDiscount)
+                                    @elseif($book->has_discount)
                                         <span class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold px-2.5 py-1 rounded-lg">
-                                            -{{ $discountPct }}%
+                                            -{{ $book->discount_percentage }}%
                                         </span>
                                     @endif
 
-                                    {{-- Remove button --}}
                                     <button
                                         onclick="removeFromWishlist({{ $book->id }}, this)"
                                         class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm text-gray-400 hover:text-primary hover:bg-white flex items-center justify-center shadow-sm transition-all duration-200 hover:scale-110"
@@ -164,20 +157,15 @@
                                         <p class="text-xs text-gray-500">{{ $book->authors->pluck('name')->join(', ') }}</p>
                                     @endif
 
-                                    {{-- Price --}}
+                                    {{-- Prices come from Model Accessors: formatted_current_price, formatted_original_price --}}
                                     <div class="flex items-baseline gap-2 mt-1">
-                                        <span class="text-primary text-lg font-bold">
-                                            {{ number_format($price, 0, ',', '.') }}đ
-                                        </span>
-                                        @if($hasDiscount)
-                                            <span class="text-gray-400 text-xs line-through">
-                                                {{ number_format($origPrice, 0, ',', '.') }}đ
-                                            </span>
+                                        <span class="text-primary text-lg font-bold">{{ $book->formatted_current_price }}</span>
+                                        @if($book->has_discount)
+                                            <span class="text-gray-400 text-xs line-through">{{ $book->formatted_original_price }}</span>
                                         @endif
                                     </div>
 
-                                    {{-- CTA Button --}}
-                                    @if($isOutOfStock)
+                                    @if($book->is_out_of_stock)
                                         <button disabled
                                             class="mt-2 w-full flex items-center justify-center gap-2 bg-gray-100 text-gray-400 cursor-not-allowed py-2.5 rounded-xl font-bold text-xs">
                                             <span class="material-symbols-outlined text-[16px]">notifications</span>
@@ -196,7 +184,6 @@
                         @endforeach
                     </div>
 
-                    {{-- Pagination --}}
                     @if($books->hasPages())
                         <div class="mt-6 flex justify-center">
                             {{ $books->links() }}
@@ -204,7 +191,6 @@
                     @endif
 
                 @else
-                    {{-- ── Empty State ── --}}
                     <div class="bg-white rounded-[18px] border border-gray-200 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-12 text-center">
                         <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
                             <span class="material-symbols-outlined text-primary text-4xl">favorite</span>
@@ -221,7 +207,6 @@
                     </div>
                 @endif
 
-                {{-- ── Explore More Banner ── --}}
                 @if($books->count() > 0)
                     <div class="mt-6 bg-white rounded-[18px] border border-dashed border-primary/30 p-8 text-center">
                         <div class="flex flex-col items-center gap-3">
@@ -249,7 +234,6 @@
 
 @push('scripts')
 <script>
-    // ── Filter tabs ──
     function filterWishlist(type) {
         const cards = document.querySelectorAll('.wishlist-card');
         const tabAll  = document.getElementById('tab-all');
@@ -269,7 +253,6 @@
         });
     }
 
-    // ── Remove from wishlist ──
     function removeFromWishlist(bookId, btn) {
         const card = btn.closest('.wishlist-card');
         card.style.transition = 'all 0.3s ease';
@@ -278,31 +261,24 @@
 
         fetch(`/account/wishlist/${bookId}`, {
             method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json',
-            }
+            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
         })
         .then(r => r.json())
         .then(data => {
             if (data.success !== false) {
                 setTimeout(() => card.remove(), 300);
             } else {
-                card.style.opacity   = '1';
+                card.style.opacity = '1';
                 card.style.transform = '';
             }
         })
-        .catch(() => {
-            card.style.opacity   = '1';
-            card.style.transform = '';
-        });
+        .catch(() => { card.style.opacity = '1'; card.style.transform = ''; });
     }
 
-    // ── Add to cart ──
     function addToCart(bookId, btn) {
         const original = btn.innerHTML;
-        btn.disabled   = true;
-        btn.innerHTML  = '<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span> Đang thêm...';
+        btn.disabled  = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">progress_activity</span> Đang thêm...';
 
         fetch('/cart/add', {
             method: 'POST',
@@ -325,10 +301,7 @@
                 btn.classList.replace('text-green-700', 'text-primary');
             }, 2000);
         })
-        .catch(() => {
-            btn.innerHTML = original;
-            btn.disabled  = false;
-        });
+        .catch(() => { btn.innerHTML = original; btn.disabled = false; });
     }
 </script>
 @endpush
