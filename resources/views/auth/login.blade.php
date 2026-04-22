@@ -138,7 +138,7 @@
                             type="password"
                             name="password"
                             id="password"
-                            class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300"
+                            class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                             placeholder="••••••••"
                             required
                         >

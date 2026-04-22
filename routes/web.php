@@ -125,6 +125,7 @@ Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
         Route::get('contact', 'contact')->name('contact');
         Route::post('contact', 'contactSubmit')->name('contact.submit');
         Route::get('faq', 'faq')->name('faq');
+        Route::get('coupons', 'coupons')->name('coupons');
     });
     Route::get('shipping', [PageController::class, 'shipping'])->name('shipping');
     Route::get('return', [PageController::class, 'return'])->name('return');

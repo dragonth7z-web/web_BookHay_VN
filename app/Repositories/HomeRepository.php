@@ -457,4 +457,53 @@ class HomeRepository implements HomeRepositoryInterface
             return $books;
         });
     }
+
+    /**
+     * Get default search suggestions data: hot keywords, featured categories, active flash sale.
+     */
+    public function getSearchSuggestionsDefault(): array
+    {
+        $hotKeywords = collect();
+
+        if (Schema::hasTable('search_histories')) {
+            $hotKeywords = DB::table('search_histories')
+                ->select('keyword', DB::raw('count(*) as cnt'))
+                ->groupBy('keyword')
+                ->orderByDesc('cnt')
+                ->limit(6)
+                ->get()
+                ->map(fn($r) => ['keyword' => $r->keyword, 'image' => null]);
+        }
+
+        if ($hotKeywords->isEmpty()) {
+            $hotKeywords = Book::where('status', BookStatus::InStock)
+                ->orderByDesc('sold_count')
+                ->take(6)
+                ->get()
+                ->map(fn($b) => [
+                    'keyword' => $b->title,
+                    'image'   => $b->cover_image_url,
+                ]);
+        }
+
+        $categories = Category::where('is_visible', true)
+            ->whereNull('parent_id')
+            ->orderBy('sort_order')
+            ->take(4)
+            ->get()
+            ->map(fn($c) => [
+                'id'    => $c->id,
+                'name'  => $c->name,
+                'image' => $c->image ? asset('storage/' . $c->image) : null,
+                'slug'  => $c->slug,
+            ]);
+
+        $flashSale = \App\Models\FlashSale::active()->first();
+
+        return [
+            'hotKeywords' => $hotKeywords,
+            'categories'  => $categories,
+            'flashSale'   => $flashSale ? ['name' => $flashSale->name] : null,
+        ];
+    }
 }

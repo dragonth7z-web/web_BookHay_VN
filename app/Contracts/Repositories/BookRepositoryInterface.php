@@ -23,4 +23,31 @@ interface BookRepositoryInterface
     public function getAllPublishers(): Collection;
     public function getAllAuthors(): Collection;
     public function getForCardDisplay(int $take = 20): Collection;
+
+    /**
+     * Fuzzy search books by query string (pass 1: SQL LIKE).
+     * Returns books matching exact phrase or condensed (no-space) match.
+     */
+    public function fuzzySearchPass1(string $query, int $limit = 6): Collection;
+
+    /**
+     * Bigram scoring search (pass 2: PHP-side).
+     * Returns books matching at least 80% of bigrams extracted from query.
+     */
+    public function fuzzySearchPass2(string $query, int $limit = 6): Collection;
+
+    /**
+     * Get IDs of books matching fuzzy search (for pagination queries).
+     */
+    public function getFuzzySearchIds(string $query): Collection;
+
+    /**
+     * Get related books in the same category.
+     */
+    public function getRelatedBooks(int $excludeId, int $categoryId, int $take = 5): Collection;
+
+    /**
+     * Get fallback books in the same category, random order.
+     */
+    public function getFallbackBooks(int $excludeId, int $categoryId, int $take = 6): Collection;
 }

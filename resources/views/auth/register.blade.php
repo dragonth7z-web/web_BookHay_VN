@@ -141,7 +141,7 @@
                         <div class="relative group">
                             <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl transition-colors group-focus-within:text-brand-primary">lock</span>
                             <input type="password" name="password" id="password" required
-                                class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300"
+                                class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                                 placeholder="••••••••">
                             <button type="button" class="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-300 hover:text-slate-500" onclick="togglePassword('password', this)" tabindex="-1">
                                 <span class="material-symbols-outlined !text-[20px]">visibility</span>
@@ -153,7 +153,7 @@
                         <div class="relative group">
                             <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xl transition-colors group-focus-within:text-brand-primary">lock_reset</span>
                             <input type="password" name="password_confirmation" id="password_confirmation" required
-                                class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300"
+                                class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                                 placeholder="••••••••">
                         </div>
                     </div>

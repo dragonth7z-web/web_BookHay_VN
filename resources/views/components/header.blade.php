@@ -161,6 +161,13 @@
                     <div id="sd-categories-grid" class="grid grid-cols-4 gap-3">
                         {{-- Injected by JS --}}
                     </div>
+
+                    {{-- Nút mã giảm giá --}}
+                    <a href="{{ route('pages.coupons') }}"
+                        class="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-dashed border-brand-primary/40 text-brand-primary hover:bg-brand-primary/5 transition-colors text-sm font-bold">
+                        <span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+                        Xem tất cả mã giảm giá
+                    </a>
                 </div>
 
                 {{-- Live Search Results --}}
