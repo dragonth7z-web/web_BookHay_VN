@@ -4,9 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Faq;
+use App\Repositories\CouponRepository;
 
 class PageController extends Controller
 {
+    public function __construct(protected CouponRepository $couponRepo) {}
+
+    /**
+     * Active coupons listing page.
+     */
+    public function coupons()
+    {
+        $coupons = $this->couponRepo->getActiveCoupons();
+
+        return view('pages.coupons', compact('coupons'));
+    }
+
     /**
      * Trang FAQ - Hỏi đáp thường gặp.
      */

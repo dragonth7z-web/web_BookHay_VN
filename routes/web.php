@@ -48,6 +48,7 @@ use App\Http\Controllers\PageController;
 Route::get('/', [HomeController::class , 'index'])->name('home');
 Route::get('/api/weekly-ranking', [HomeController::class, 'getWeeklyRankingApi'])->name('api.weekly-ranking');
 Route::get('/api/shopping-trend', [HomeController::class, 'getShoppingTrendApi'])->name('api.shopping-trend');
+Route::get('/api/search-suggestions', [HomeController::class, 'searchSuggestionsApi'])->name('api.search-suggestions');
 
 // ============================================================================
 // XÁC THỰC (Authentication)
@@ -127,6 +128,7 @@ Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
         Route::get('contact', 'contact')->name('contact');
         Route::post('contact', 'contactSubmit')->name('contact.submit');
         Route::get('faq', 'faq')->name('faq');
+        Route::get('coupons', 'coupons')->name('coupons');
     });
     Route::get('shipping', [PageController::class, 'shipping'])->name('shipping');
     Route::get('return', [PageController::class, 'return'])->name('return');

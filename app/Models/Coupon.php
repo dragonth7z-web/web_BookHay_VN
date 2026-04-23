@@ -49,4 +49,58 @@ class Coupon extends Model
     {
         return $this->hasMany(CouponUsage::class, 'coupon_id');
     }
+
+    // ── Accessors ─────────────────────────────────────────────────────────────
+
+    /**
+     * Human-readable discount label: "-20%" or "-50.000đ"
+     */
+    public function getDiscountLabelAttribute(): string
+    {
+        if ($this->type === CouponType::Percentage) {
+            return '-' . $this->value . '%';
+        }
+
+        return '-' . number_format($this->value, 0, ',', '.') . 'đ';
+    }
+
+    /**
+     * Days remaining until expiry. Negative means expired.
+     */
+    public function getDaysRemainingAttribute(): int
+    {
+        return (int) now()->diffInDays($this->expires_at, false);
+    }
+
+    /**
+     * Remaining usage count, or null if unlimited.
+     */
+    public function getRemainingUsageAttribute(): ?int
+    {
+        return $this->usage_limit ? $this->usage_limit - $this->used_count : null;
+    }
+
+    /**
+     * CSS urgency class for expiry display.
+     */
+    public function getExpiryUrgencyClassAttribute(): string
+    {
+        return $this->days_remaining <= 3 ? 'text-rose-500' : 'text-gray-400';
+    }
+
+    /**
+     * Human-readable expiry label.
+     */
+    public function getExpiryLabelAttribute(): string
+    {
+        if ($this->days_remaining <= 0) {
+            return 'Hết hạn hôm nay';
+        }
+
+        if ($this->days_remaining <= 3) {
+            return 'Còn ' . $this->days_remaining . ' ngày';
+        }
+
+        return 'HSD: ' . $this->expires_at->format('d/m/Y');
+    }
 }

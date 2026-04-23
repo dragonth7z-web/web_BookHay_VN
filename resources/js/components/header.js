@@ -25,6 +25,8 @@ export function initHeader() {
             w._isSticky = false;
         });
         activeWrapper = null;
+        // Đóng search dropdown
+        document.getElementById('search-dropdown')?.classList.add('hidden');
     };
 
     const openOne = (wrapper, sticky = false) => {
@@ -70,8 +72,16 @@ export function initHeader() {
             if (y > 80) {
                 if (y > lastScrollY && y > 150) {
                     header.classList.add('header-hidden');
+                    // Đóng search dropdown khi header ẩn
+                    document.getElementById('search-dropdown')?.classList.add('hidden');
                 } else if (y < lastScrollY) {
                     header.classList.remove('header-hidden');
+                    // Nếu input đang có text thì mở lại dropdown
+                    const searchInput = document.getElementById('search-input');
+                    const dropdown = document.getElementById('search-dropdown');
+                    if (searchInput?.value.trim().length >= 2 && dropdown) {
+                        dropdown.classList.remove('hidden');
+                    }
                 }
             } else {
                 header.classList.remove('header-hidden');
