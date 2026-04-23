@@ -29,4 +29,23 @@ class ShippingAddress extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // ── Display Logic Accessors ──
+    public function getFullAddressAttribute(): string
+    {
+        return implode(', ', array_filter([
+            $this->address_detail,
+            $this->ward,
+            $this->district,
+            $this->province,
+        ]));
+    }
+
+    public function getTypeLabelAttribute(): string
+    {
+        if ($this->is_default) {
+            return 'Mặc định';
+        }
+        return 'Địa chỉ khác';
+    }
 }

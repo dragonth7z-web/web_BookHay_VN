@@ -20,42 +20,69 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @if(isset($vouchers) && $vouchers->count() > 0)
                 @foreach($vouchers->take(3) as $index => $voucher)
-                    <a href="{{ route('books.search') }}"
-                        class="group relative flex h-36 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-800 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
-                        {{-- Main part --}}
-                        <div class="flex-1 bg-slate-50 dark:bg-slate-800/50 p-5 flex flex-col justify-center relative">
-                            {{-- Decorative cutouts --}}
-                            <div
-                                class="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full border-l border-slate-100 dark:border-slate-800 z-10">
-                            </div>
-    
-                            <div class="flex items-center gap-2 mb-1">
-                                <span
-                                    class="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded-full">Voucher</span>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hội viên</span>
-                            </div>
-                            <h3 class="text-lg font-black text-slate-900 dark:text-white leading-tight">Giảm
-                                {{ number_format($voucher->value, 0, ',', '.') }}{{ $voucher->type->value === 'percentage' ? '%' : 'đ' }}
+                    {{-- Ticket-style voucher card matching the design --}}
+                    <div class="relative bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl overflow-hidden flex items-stretch shadow-sm hover:shadow-lg transition-all duration-200 group border border-rose-100">
+
+                        {{-- Left icon area --}}
+                        <div class="w-20 flex-shrink-0 {{ $voucher->icon_config['bg'] }} flex items-center justify-center relative">
+                            @if($voucher->icon_config['is_text'])
+                                <div class="flex flex-col items-center justify-center px-2 py-3">
+                                    <span class="text-white font-black text-sm leading-tight text-center uppercase">FREE</span>
+                                    <span class="text-white font-black text-sm leading-tight text-center uppercase">SHIP</span>
+                                </div>
+                            @else
+                                <div class="w-12 h-12 rounded-xl {{ $voucher->icon_config['text_bg'] }} flex items-center justify-center shadow-sm">
+                                    <span class="text-primary font-black text-xl leading-none select-none">{{ $voucher->icon_config['symbol'] }}</span>
+                                </div>
+                            @endif
+                            <div class="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full"></div>
+                        </div>
+
+                        {{-- Center content --}}
+                        <div class="flex-1 px-5 py-4 bg-white relative">
+                            <div class="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full"></div>
+
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">
+                                {{ $voucher->name ?? 'Voucher hội viên' }}
+                            </p>
+                            <h3 class="text-2xl font-black text-gray-900 leading-none mb-2">
+                                Giảm {{ number_format($voucher->value, 0, ',', '.') }}{{ $voucher->type?->value === 'percentage' ? '%' : 'đ' }}
                             </h3>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">Đơn hàng từ
-                                {{ number_format($voucher->min_order_amount, 0, ',', '.') }}đ</p>
-                        </div>
-    
-                        {{-- Side part (The "Stub") --}}
-                        <div class="w-16 bg-primary dark:bg-red-700 flex items-center justify-center relative">
-                            <div
-                                class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full z-10">
+                            <p class="text-xs text-gray-600 font-medium">
+                                Đơn tối thiểu {{ number_format($voucher->min_order_amount, 0, ',', '.') }}đ
+                            </p>
+                            @if($voucher->type?->value === 'percentage' && $voucher->max_discount)
+                                <p class="text-xs text-gray-400">
+                                    Giảm tối đa {{ number_format($voucher->max_discount, 0, ',', '.') }}đ
+                                </p>
+                            @endif
+
+                            <div class="flex items-center gap-3 mt-3 pt-2.5 border-t border-dashed border-gray-200">
+                                <span class="text-[11px] {{ $voucher->expiry_urgency_class }} font-bold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[13px]">schedule</span>
+                                    {{ $voucher->expiry_label }}
+                                </span>
+                                @if($voucher->remaining_usage !== null)
+                                    <span class="text-[11px] text-gray-400 font-medium">
+                                        Còn {{ number_format($voucher->remaining_usage) }} lượt
+                                    </span>
+                                @endif
                             </div>
-                            <span
-                                class="rotate-[-90deg] whitespace-nowrap text-[10px] font-black text-white uppercase tracking-[0.3em]">KHÁM
-                                PHÁ</span>
                         </div>
-    
-                        {{-- Hover shimmer --}}
-                        <div
-                            class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-[25deg] group-hover:animate-shimmer-slide">
-                        </div>
-                    </a>
+
+                        {{-- Right "DÙNG NGAY" tab --}}
+                        <a href="{{ route('books.search') }}"
+                            class="w-16 flex-shrink-0 bg-primary hover:bg-primary/90 flex items-center justify-center relative transition-all duration-200 group-hover:w-20">
+                            <div class="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full"></div>
+                            <div class="flex flex-col items-center gap-1.5">
+                                <span class="material-symbols-outlined text-white text-xl">confirmation_number</span>
+                                <span class="text-white text-[9px] font-black uppercase tracking-[0.15em]" style="writing-mode:vertical-rl;text-orientation:mixed">
+                                    Dùng Ngay
+                                </span>
+                            </div>
+                            <span class="material-symbols-outlined absolute top-2 right-1.5 text-white/40 text-xs animate-pulse">auto_awesome</span>
+                        </a>
+                    </div>
                 @endforeach
             @else
                 {{-- PREMIUM EMPTY STATE --}}

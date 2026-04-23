@@ -115,7 +115,13 @@ Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => 'auth.c
         Route::get('notifications', 'notifications')->name('notifications');
         Route::post('notifications/{id}/read', 'markNotificationRead')->name('notifications.read');
         Route::post('notifications/read-all', 'markAllNotificationsRead')->name('notifications.read-all');
+        Route::get('coupons', 'coupons')->name('coupons');
         Route::get('reviews', 'reviews')->name('reviews');
+        Route::get('addresses', 'addresses')->name('addresses');
+        Route::post('addresses', 'storeAddress')->name('addresses.store');
+        Route::put('addresses/{id}', 'updateAddress')->name('addresses.update');
+        Route::delete('addresses/{id}', 'destroyAddress')->name('addresses.destroy');
+        Route::post('addresses/{id}/default', 'setDefaultAddress')->name('addresses.default');
     });
 });
 

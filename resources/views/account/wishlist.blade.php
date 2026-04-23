@@ -45,12 +45,12 @@
                         <span class="material-symbols-outlined text-xl">notifications</span>
                         <span>Thông báo</span>
                     </a>
-                    <a href="#"
+                    <a href="{{ route('account.addresses') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
                         <span class="material-symbols-outlined text-xl">location_on</span>
                         <span>Sổ địa chỉ</span>
                     </a>
-                    <a href="#"
+                    <a href="{{ route('account.coupons') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
                         <span class="material-symbols-outlined text-xl">confirmation_number</span>
                         <span>Kho Voucher</span>

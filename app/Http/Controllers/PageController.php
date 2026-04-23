@@ -12,11 +12,15 @@ class PageController extends Controller
 
     /**
      * Active coupons listing page.
+     * Redirects to account coupons if user is logged in.
      */
     public function coupons()
     {
-        $coupons = $this->couponRepo->getActiveCoupons();
+        if (session('user_id')) {
+            return redirect()->route('account.coupons');
+        }
 
+        $coupons = $this->couponRepo->getActiveCoupons();
         return view('pages.coupons', compact('coupons'));
     }
 

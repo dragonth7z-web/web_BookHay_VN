@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#906f6c",
+                    "on-tertiary-fixed": "#001e2f",
+                    "on-background": "#1a1c1c",
+                    "tertiary-fixed": "#cae6ff",
+                    "surface-tint": "#bc141f",
+                    "on-secondary-fixed": "#001d31",
+                    "secondary-container": "#abd6ff",
+                    "on-primary-fixed": "#410003",
+                    "surface-container-high": "#e8e8e8",
+                    "secondary-fixed-dim": "#a0cbf3",
+                    "background": "#f9f9f9",
+                    "surface-container": "#eeeeee",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#c92127",
+                    "primary": "#a30014",
+                    "on-secondary-fixed-variant": "#1a4a6c",
+                    "tertiary": "#00557c",
+                    "surface-variant": "#e2e2e2",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#366285",
+                    "tertiary-container": "#006ea0",
+                    "surface": "#f9f9f9",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#e4bdba",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f1f1f1",
+                    "inverse-primary": "#ffb3ad",
+                    "surface-bright": "#f9f9f9",
+                    "inverse-surface": "#2f3131",
+                    "on-primary-fixed-variant": "#930011",
+                    "tertiary-fixed-dim": "#8cceff",
+                    "on-surface": "#1a1c1c",
+                    "on-tertiary-fixed-variant": "#004b6f",
+                    "primary-fixed": "#ffdad6",
+                    "surface-container-low": "#f3f3f3",
+                    "secondary-fixed": "#cce5ff",
+                    "on-tertiary-container": "#d3eaff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#305e80",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#ffe0dd",
+                    "surface-dim": "#dadada",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#5c403d",
+                    "surface-container-highest": "#e2e2e2"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "display": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0px 12px 32px rgba(26, 28, 28, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+<div class="flex justify-between items-center px-8 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="text-xl font-black tracking-tighter text-[#a30014]">
+                The Literary Gallery
+            </div>
+<div class="hidden md:flex items-center gap-8 font-inter antialiased">
+<a class="text-slate-600 hover:text-[#a30014] transition-colors" href="#">Browse</a>
+<a class="text-slate-600 hover:text-[#a30014] transition-colors" href="#">Curations</a>
+<a class="text-slate-600 hover:text-[#a30014] transition-colors" href="#">Journal</a>
+<a class="text-slate-600 hover:text-[#a30014] transition-colors" href="#">Collections</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="p-2 text-slate-600 hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="max-w-screen-2xl mx-auto flex px-8 gap-12">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col sticky top-16 h-[calc(100vh-4rem)] py-12 w-64 shrink-0 bg-slate-50">
+<div class="px-3 mb-8">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 bg-secondary-fixed rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of an elegant woman with glasses in a scholarly library setting, soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnPLpYVU1iwuCyt6HpY6o1VhUU82bBU5SHu2M0rVplcXhGkkf71fzwHe88yO2Np48tylUPn6J6hB5OyHAc9XoQhJ8orldMVIYFLynRJcbOYdfIJqrejqsv1mHqNFj83mOk9G0cVRxGMmbKyLQI1UnehcQvUoLc89gFtNIo2xrv9s1f0UG2Tk8wAr6WXiIK8KMjKE5PyZUjnF_9lxkrDfTcil39M3jhGEChr1pf-C2FLHVSmIp2UhE9OJn84sq3A9N1lAbgqFZm0oB3"/>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-900 leading-tight">Account Gallery</h3>
+<p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Modern Curator</p>
+</div>
+</div>
+<button class="w-full py-2 bg-primary text-on-primary rounded-md text-sm font-semibold hover:bg-primary-container transition-all">
+                    New Collection
+                </button>
+</div>
+<nav class="flex flex-col gap-1 px-3 font-inter text-sm font-medium">
+<a class="text-slate-600 hover:bg-slate-200 p-3 flex items-center gap-3 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">person</span> Profile
+                </a>
+<a class="text-slate-600 hover:bg-slate-200 p-3 flex items-center gap-3 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">favorite</span> Wishlist
+                </a>
+<a class="text-slate-600 hover:bg-slate-200 p-3 flex items-center gap-3 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">receipt_long</span> Orders
+                </a>
+<a class="text-slate-600 hover:bg-slate-200 p-3 flex items-center gap-3 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">notifications</span> Notifications
+                </a>
+<a class="bg-[#366285] text-white rounded-md p-3 flex items-center gap-3 transition-all duration-150" href="#">
+<span class="material-symbols-outlined">location_on</span> Address Book
+                </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<section class="flex-grow py-12">
+<header class="mb-10">
+<div class="flex items-center gap-2 text-slate-400 mb-2">
+<span class="text-xs font-bold uppercase tracking-widest">Tài khoản</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-xs font-bold uppercase tracking-widest text-primary">Sổ địa chỉ</span>
+</div>
+<h1 class="text-4xl font-black text-on-surface mb-2 tracking-tight">Sổ địa chỉ</h1>
+<p class="text-on-surface-variant max-w-xl">Quản lý thông tin giao hàng và hóa đơn của bạn để trải nghiệm mua sắm mượt mà hơn.</p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Add New Address Card -->
+<button class="group border-2 border-dashed border-outline-variant bg-surface-container-low rounded-xl flex flex-col items-center justify-center p-8 transition-all hover:bg-white hover:border-primary">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:scale-110 transition-transform">add</span>
+</div>
+<span class="font-bold text-on-surface">Thêm địa chỉ mới</span>
+<span class="text-xs text-on-surface-variant mt-1 text-center">Lưu thông tin giao hàng khác</span>
+</button>
+<!-- Address Card 1 (Default) -->
+<div class="bg-surface-container-lowest editorial-shadow rounded-xl p-6 relative flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-secondary text-white text-[10px] font-bold uppercase tracking-tighter rounded">Mặc định</span>
+<span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-tighter rounded">Nhà riêng</span>
+</div>
+<span class="material-symbols-outlined text-secondary opacity-20">location_on</span>
+</div>
+<div class="space-y-1 mb-6 flex-grow">
+<h4 class="font-bold text-lg text-on-surface">Nguyễn Minh Tuấn</h4>
+<p class="text-sm text-secondary font-medium">+84 901 234 567</p>
+<div class="pt-3 border-t border-surface-container-low mt-3">
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                123 Đường Lê Lợi, Phường Bến Thành,<br/>
+                                Quận 1, TP. Hồ Chí Minh,<br/>
+                                Việt Nam
+                            </p>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-4 border-t border-surface-container-low">
+<button class="flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">edit</span> Chỉnh sửa
+                        </button>
+<button class="flex items-center gap-1.5 text-xs font-bold text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span> Xóa
+                        </button>
+</div>
+</div>
+<!-- Address Card 2 -->
+<div class="bg-surface-container-lowest editorial-shadow rounded-xl p-6 relative flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-tighter rounded">Văn phòng</span>
+</div>
+</div>
+<div class="space-y-1 mb-6 flex-grow">
+<h4 class="font-bold text-lg text-on-surface">Nguyễn Minh Tuấn</h4>
+<p class="text-sm text-secondary font-medium">+84 908 765 432</p>
+<div class="pt-3 border-t border-surface-container-low mt-3">
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                Tòa nhà Bitexco, Tầng 45,<br/>
+                                Số 2 Hải Triều, Phường Bến Nghé,<br/>
+                                Quận 1, TP. Hồ Chí Minh
+                            </p>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-4 border-t border-surface-container-low">
+<button class="flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">edit</span> Chỉnh sửa
+                        </button>
+<button class="flex items-center gap-1.5 text-xs font-bold text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span> Xóa
+                        </button>
+</div>
+</div>
+<!-- Address Card 3 -->
+<div class="bg-surface-container-lowest editorial-shadow rounded-xl p-6 relative flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-tighter rounded">Quà tặng</span>
+</div>
+</div>
+<div class="space-y-1 mb-6 flex-grow">
+<h4 class="font-bold text-lg text-on-surface">Trần Thị Lan Anh</h4>
+<p class="text-sm text-secondary font-medium">+84 912 345 678</p>
+<div class="pt-3 border-t border-surface-container-low mt-3">
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                456 Đường Nguyễn Huệ, Phường Mỹ Long,<br/>
+                                Thành phố Long Xuyên, Tỉnh An Giang
+                            </p>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-4 border-t border-surface-container-low">
+<button class="flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
+<span class="material-symbols-outlined text-sm">edit</span> Chỉnh sửa
+                        </button>
+<button class="flex items-center gap-1.5 text-xs font-bold text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span> Xóa
+                        </button>
+</div>
+</div>
+</div>
+<!-- Bento Styled Info Section -->
+<div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="md:col-span-2 bg-[#366285] rounded-xl p-8 text-white flex justify-between items-center overflow-hidden relative">
+<div class="relative z-10">
+<h3 class="text-2xl font-bold mb-2">Ưu tiên Giao hàng</h3>
+<p class="text-secondary-fixed opacity-90 text-sm max-w-sm mb-4">Địa chỉ mặc định giúp quy trình thanh toán diễn ra nhanh chóng hơn. Bạn có thể thay đổi bất cứ lúc nào.</p>
+<button class="text-sm font-bold border-b-2 border-white pb-1">Xem chi tiết chính sách</button>
+</div>
+<div class="absolute right-[-20px] bottom-[-20px] opacity-10">
+<span class="material-symbols-outlined text-[160px]" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
+</div>
+</div>
+<div class="bg-primary-container rounded-xl p-8 text-on-primary-container">
+<span class="material-symbols-outlined text-3xl mb-4">verified</span>
+<h3 class="text-xl font-bold mb-2">Bảo mật</h3>
+<p class="text-xs opacity-80 leading-relaxed">Dữ liệu địa chỉ của bạn được mã hóa và bảo vệ theo tiêu chuẩn quốc tế GDPR.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 mt-20">
+<div class="w-full max-w-screen-2xl mx-auto py-12 px-8 flex flex-col md:flex-row justify-between items-center border-t border-slate-200">
+<div class="mb-6 md:mb-0">
+<span class="font-bold text-[#a30014] text-lg">The Literary Gallery</span>
+<p class="font-inter text-xs uppercase tracking-widest text-slate-500 mt-2">© 2024 The Literary Gallery. Designed for the intellectual editorial.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-[#a30014] transition-colors" href="#">Privacy</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-[#a30014] transition-colors" href="#">Terms</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-[#a30014] transition-colors" href="#">Editorial Policy</a>
+<a class="font-inter text-xs uppercase tracking-widest text-slate-500 hover:text-[#a30014] transition-colors" href="#">Shipping</a>
+</div>
+</div>
+</footer>
+</body></html>
