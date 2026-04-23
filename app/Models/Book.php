@@ -143,4 +143,38 @@ class Book extends Model
             ],
         };
     }
+
+    // ── Wishlist Display Logic Accessors ──
+    public function getCurrentPriceAttribute(): float
+    {
+        return $this->sale_price ?? $this->original_price ?? 0;
+    }
+
+    public function getHasDiscountAttribute(): bool
+    {
+        return $this->original_price > 0 && $this->current_price < $this->original_price;
+    }
+
+    public function getDiscountPercentageAttribute(): int
+    {
+        if (!$this->has_discount) {
+            return 0;
+        }
+        return (int) round((1 - $this->current_price / $this->original_price) * 100);
+    }
+
+    public function getIsOutOfStockAttribute(): bool
+    {
+        return $this->stock !== null && $this->stock <= 0;
+    }
+
+    public function getFormattedCurrentPriceAttribute(): string
+    {
+        return number_format($this->current_price, 0, ',', '.') . 'đ';
+    }
+
+    public function getFormattedOriginalPriceAttribute(): string
+    {
+        return number_format($this->original_price, 0, ',', '.') . 'đ';
+    }
 }

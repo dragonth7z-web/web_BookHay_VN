@@ -110,4 +110,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(PurchaseOrder::class, 'created_by');
     }
+
+    // ── Display Logic Accessors ──
+    public function getFirstNameAttribute(): string
+    {
+        $parts = explode(' ', trim($this->name));
+        return end($parts);
+    }
+
+    public function getFormattedLoyaltyPointsAttribute(): string
+    {
+        return number_format($this->loyalty_points ?? 0, 0, ',', '.');
+    }
 }

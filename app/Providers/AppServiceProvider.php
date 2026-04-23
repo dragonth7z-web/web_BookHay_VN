@@ -9,6 +9,9 @@ use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Contracts\Repositories\OrderRepositoryInterface;
 use App\Contracts\Repositories\PublisherRepositoryInterface;
 use App\Contracts\Repositories\WeeklyRankingRepositoryInterface;
+use App\Contracts\Repositories\NotificationRepositoryInterface;
+use App\Contracts\Repositories\WishlistRepositoryInterface;
+use App\Contracts\Repositories\DashboardRepositoryInterface;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
@@ -20,12 +23,18 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PublisherRepository;
 use App\Repositories\WeeklyRankingRepository;
+use App\Repositories\NotificationRepository;
+use App\Repositories\WishlistRepository;
+use App\Repositories\DashboardRepository;
 use App\Services\BookService;
 use App\Services\CheckoutService;
 use App\Services\CouponService;
+use App\Services\DashboardService;
 use App\Services\FlashSaleService;
+use App\Services\NotificationService;
 use App\Services\OrderService;
 use App\Services\PurchaseOrderService;
+use App\Services\WishlistService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,6 +51,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->singleton(HomeRepositoryInterface::class, HomeRepository::class);
 
+        // Notification & Wishlist & Dashboard
+        $this->app->singleton(NotificationRepositoryInterface::class, NotificationRepository::class);
+        $this->app->singleton(WishlistRepositoryInterface::class, WishlistRepository::class);
+        $this->app->singleton(DashboardRepositoryInterface::class, DashboardRepository::class);
+
         // Keep concrete singletons for classes without interfaces yet
         $this->app->singleton(CheckoutService::class);
         $this->app->singleton(FlashSaleService::class);
@@ -49,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(BookService::class);
         $this->app->singleton(CouponService::class);
         $this->app->singleton(PurchaseOrderService::class);
+        $this->app->singleton(NotificationService::class);
+        $this->app->singleton(WishlistService::class);
+        $this->app->singleton(DashboardService::class);
     }
 
     public function boot(): void

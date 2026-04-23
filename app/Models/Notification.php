@@ -31,4 +31,23 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // ── Display Logic Accessors ──
+    public function getTypeConfigAttribute(): array
+    {
+        return match ($this->type?->value ?? 'system') {
+            'order'     => ['icon' => 'package_2',     'bg' => 'bg-blue-50',  'color' => 'text-blue-500', 'label' => 'Đơn hàng'],
+            'promotion' => ['icon' => 'local_offer',   'bg' => 'bg-rose-50',  'color' => 'text-primary',  'label' => 'Khuyến mãi'],
+            'system'    => ['icon' => 'shield',        'bg' => 'bg-gray-100', 'color' => 'text-gray-500', 'label' => 'Hệ thống'],
+            default     => ['icon' => 'notifications', 'bg' => 'bg-gray-100', 'color' => 'text-gray-500', 'label' => 'Thông báo'],
+        };
+    }
+
+    public function getTimeAgoAttribute(): string
+    {
+        if (!$this->created_at) {
+            return '';
+        }
+        return $this->created_at->diffForHumans();
+    }
 }
