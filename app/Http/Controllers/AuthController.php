@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\SystemLog;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -74,22 +76,8 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'phone' => 'nullable|string|max:20',
-        ], [
-            'name.required' => 'Vui lòng nhập họ tên.',
-            'email.required' => 'Vui lòng nhập email.',
-            'email.unique' => 'Email này đã được sử dụng.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
-            'password.min' => 'Mật khẩu tối thiểu 6 ký tự.',
-        ]);
-
         $user = User::create([
             'name' => $request->ho_ten,
             'email' => $request->email,
@@ -111,6 +99,19 @@ class AuthController extends Controller
         SystemLog::ghi('data', 'create', 'Tài khoản mới được tạo: ' . $user->name . ' (' . $user->email . ')', 'info', 'User', $user->id);
 
         return redirect()->route('account.dashboard')->with('success', 'Chào mừng ' . $user->name . '! Tài khoản đã được tạo thành công.');
+    }
+
+    // ───────── Check Email ─────────
+    public function checkEmail(Request $request): JsonResponse
+    {
+        $email = strtolower(trim($request->get('email', '')));
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json(['exists' => false]);
+        }
+
+        $exists = User::where('email', $email)->exists();
+        return response()->json(['exists' => $exists]);
     }
 
     // ───────── Logout ─────────

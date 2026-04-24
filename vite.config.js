@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
+// @ts-ignore
+import { defineConfig as defineVitestConfig } from 'vitest/config';
 
 export default defineConfig({
     plugins: [
@@ -26,5 +28,9 @@ export default defineConfig({
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
+    },
+    test: {
+        environment: 'jsdom',
+        globals: true,
     },
 });
