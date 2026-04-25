@@ -29,23 +29,21 @@
         @endif
 
         {{-- discount_label, expiry_label, expiry_urgency_class, remaining_usage, icon_config come from Coupon Model Accessors --}}
+        @php $ic = $coupon->icon_config; @endphp
         <div class="relative bg-white rounded-2xl overflow-hidden flex items-stretch border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group" style="min-height:120px">
 
             {{-- Left icon area — icon_config is a Model Accessor --}}
-            @php $ic = $coupon->icon_config; @endphp
-            <div class="w-[88px] flex-shrink-0 {{ $ic['bg'] }} flex items-center justify-center relative">
-                @if($ic['is_text'])
-                    <div class="flex flex-col items-center justify-center px-2 py-3">
-                        <span class="text-white font-black text-base leading-tight text-center uppercase">FREE</span>
-                        <span class="text-white font-black text-base leading-tight text-center uppercase">SHIP</span>
+            <div class="w-[88px] flex-shrink-0 {{ $ic['bg'] }} flex flex-col items-center justify-center gap-1.5 py-4 px-2 relative">
+                @if($ic['type'] === 'freeship')
+                    <div class="w-14 h-14 rounded-2xl {{ $ic['icon_bg'] }} flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-700 text-3xl">local_shipping</span>
                     </div>
+                    <span class="text-green-800 text-[9px] font-black uppercase tracking-wide">FREESHIP</span>
                 @else
-                    <div class="w-14 h-14 rounded-2xl {{ $ic['text_bg'] }} flex items-center justify-center">
+                    <div class="w-14 h-14 rounded-2xl {{ $ic['icon_bg'] }} flex items-center justify-center">
                         <span class="text-primary font-black text-2xl leading-none select-none">{{ $ic['symbol'] }}</span>
                     </div>
                 @endif
-                <div class="absolute top-1/2 -right-[9px] -translate-y-1/2 w-[18px] h-[18px] bg-gray-50 rounded-full z-10"></div>
-            </div>
                 <div class="absolute top-1/2 -right-[9px] -translate-y-1/2 w-[18px] h-[18px] bg-gray-50 rounded-full z-10"></div>
             </div>
 
@@ -89,19 +87,16 @@
                 </div>
             </div>
 
-            {{-- Right "DÙNG NGAY" tab --}}
+            {{-- Right "DÙNG NGAY" tab — màu theo loại voucher --}}
             <button
                 onclick="copyCoupon('{{ $coupon->code }}', this)"
-                class="coupon-tab w-20 flex-shrink-0 bg-primary hover:bg-primary/90 flex items-center justify-center relative transition-all duration-200 group-hover:w-24">
-                <div class="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-gray-50 rounded-full"></div>
-                <div class="flex flex-col items-center gap-2">
-                    <span class="material-symbols-outlined text-white text-2xl coupon-icon">content_copy</span>
-                    <span class="text-white text-[10px] font-black uppercase tracking-[0.15em] coupon-label"
-                        style="writing-mode:vertical-rl;text-orientation:mixed">
-                        Dùng Ngay
-                    </span>
-                </div>
-                <span class="material-symbols-outlined absolute top-2 right-2 text-white/40 text-sm animate-pulse">auto_awesome</span>
+                class="w-[60px] flex-shrink-0 {{ $ic['tab_bg'] }} hover:opacity-90 flex flex-col items-center justify-center gap-2 relative transition-all duration-200">
+                <div class="absolute top-1/2 -left-[9px] -translate-y-1/2 w-[18px] h-[18px] bg-gray-50 rounded-full z-10"></div>
+                <span class="text-white text-[11px] font-black uppercase tracking-[0.2em] coupon-label select-none"
+                    style="writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)">
+                    Dùng Ngay
+                </span>
+                <span class="material-symbols-outlined text-white/50 text-sm absolute bottom-3">auto_awesome</span>
             </button>
         </div>
 

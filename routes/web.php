@@ -144,6 +144,7 @@ Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
 
 Route::get('order-tracking', [PageController::class, 'orderTracking'])->name('orders.tracking');
 Route::get('stores', [PageController::class, 'stores'])->name('stores.index');
+Route::get('cho-thu-cu', [PageController::class, 'secondHandMarket'])->name('second-hand.index');
 
 // ============================================================================
 // COMBO, FLASH SALE, COLLECTIONS (Frontend)

@@ -13,6 +13,7 @@ use App\Contracts\Repositories\NotificationRepositoryInterface;
 use App\Contracts\Repositories\WishlistRepositoryInterface;
 use App\Contracts\Repositories\DashboardRepositoryInterface;
 use App\Contracts\Repositories\ShippingAddressRepositoryInterface;
+use App\Contracts\Repositories\SecondHandMarketRepositoryInterface;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
@@ -28,6 +29,7 @@ use App\Repositories\NotificationRepository;
 use App\Repositories\WishlistRepository;
 use App\Repositories\DashboardRepository;
 use App\Repositories\ShippingAddressRepository;
+use App\Repositories\SecondHandMarketRepository;
 use App\Services\BookService;
 use App\Services\CheckoutService;
 use App\Services\CouponService;
@@ -37,6 +39,7 @@ use App\Services\NotificationService;
 use App\Services\OrderService;
 use App\Services\PurchaseOrderService;
 use App\Services\ShippingAddressService;
+use App\Services\SecondHandMarketService;
 use App\Services\WishlistService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -59,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(WishlistRepositoryInterface::class, WishlistRepository::class);
         $this->app->singleton(DashboardRepositoryInterface::class, DashboardRepository::class);
         $this->app->singleton(ShippingAddressRepositoryInterface::class, ShippingAddressRepository::class);
+        $this->app->singleton(SecondHandMarketRepositoryInterface::class, SecondHandMarketRepository::class);
 
         // Keep concrete singletons for classes without interfaces yet
         $this->app->singleton(CheckoutService::class);
@@ -71,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(WishlistService::class);
         $this->app->singleton(DashboardService::class);
         $this->app->singleton(ShippingAddressService::class);
+        $this->app->singleton(SecondHandMarketService::class);
     }
 
     public function boot(): void

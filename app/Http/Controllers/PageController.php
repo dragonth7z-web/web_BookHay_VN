@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Faq;
 use App\Repositories\CouponRepository;
+use App\Services\SecondHandMarketService;
 
 class PageController extends Controller
 {
-    public function __construct(protected CouponRepository $couponRepo) {}
+    public function __construct(
+        protected CouponRepository $couponRepo,
+        protected SecondHandMarketService $marketService
+    ) {}
 
     /**
      * Active coupons listing page.
@@ -118,5 +122,21 @@ class PageController extends Controller
     public function stores()
     {
         return view('pages.stores');
+    }
+
+    /**
+     * Second-hand book marketplace page.
+     */
+    public function secondHandMarket()
+    {
+        $featuredBooks      = $this->marketService->getFeaturedBooks();
+        $marketStats        = $this->marketService->getMarketStats();
+        $filterCategories   = $this->marketService->getFilterCategories();
+
+        return view('pages.second-hand-market', compact(
+            'featuredBooks',
+            'marketStats',
+            'filterCategories'
+        ));
     }
 }

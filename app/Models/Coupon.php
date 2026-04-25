@@ -73,35 +73,39 @@ class Coupon extends Model
         // Free shipping — detected via ui_icon field or name keyword
         $isFreeShip = $this->ui_icon === 'free_ship'
             || str_contains(strtolower($this->name ?? ''), 'free')
-            || str_contains(strtolower($this->name ?? ''), 'ship');
+            || str_contains(strtolower($this->name ?? ''), 'ship')
+            || str_contains(strtolower($this->name ?? ''), 'vận chuyển');
 
         if ($isFreeShip) {
             return [
-                'bg'      => 'bg-teal-500',
-                'text_bg' => 'bg-teal-500',
-                'symbol'  => null,
-                'label'   => "FREE\nSHIP",
-                'is_text' => true,
+                'type'     => 'freeship',
+                'bg'       => 'bg-green-50',
+                'tab_bg'   => 'bg-green-800',
+                'icon_bg'  => 'bg-green-100',
+                'symbol'   => null,
+                'label'    => 'FREESHIP',
             ];
         }
 
         if ($this->type === CouponType::Percentage) {
             return [
-                'bg'      => 'bg-rose-50',
-                'text_bg' => 'bg-primary/10',
-                'symbol'  => '%',
-                'label'   => null,
-                'is_text' => false,
+                'type'     => 'percentage',
+                'bg'       => 'bg-rose-50',
+                'tab_bg'   => 'bg-primary',
+                'icon_bg'  => 'bg-primary/10',
+                'symbol'   => '%',
+                'label'    => null,
             ];
         }
 
         // Fixed amount
         return [
-            'bg'      => 'bg-rose-50',
-            'text_bg' => 'bg-primary/10',
-            'symbol'  => 'đ',
-            'label'   => null,
-            'is_text' => false,
+            'type'     => 'fixed',
+            'bg'       => 'bg-rose-50',
+            'tab_bg'   => 'bg-primary',
+            'icon_bg'  => 'bg-primary/10',
+            'symbol'   => 'đ',
+            'label'    => null,
         ];
     }
 
