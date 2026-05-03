@@ -40,6 +40,7 @@
                     ['route' => 'admin.orders.index', 'icon' => 'shopping_cart', 'text' => 'Đơn hàng', 'badge' => '12'],
                     ['route' => 'admin.users.index', 'icon' => 'people', 'text' => 'Khách hàng', 'badge' => '+5'],
                     ['route' => 'admin.purchase-orders.index', 'icon' => 'inventory_2', 'text' => 'Kho & Nhập hàng', 'badge' => '3'],
+                    ['route' => 'admin.support-tickets.index', 'icon' => 'support_agent', 'text' => 'Yêu cầu hỗ trợ', 'badge' => null],
                 ]],
                 ['label' => 'Quản lý nội dung', 'items' => [
                     ['route' => 'admin.categories.index', 'icon' => 'category', 'text' => 'Danh mục'],

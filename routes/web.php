@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\WeeklyRankingController;
 use App\Http\Controllers\Admin\FlashSaleController;
 use App\Http\Controllers\Admin\FeaturedWorksController;
 use App\Http\Controllers\Admin\SystemLogController;
+use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 
 // ─── Frontend Controllers ─────────────────────────────────────────────────────
 use App\Http\Controllers\HomeController;
@@ -195,6 +196,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.cust
     // Nhóm 5: Tương tác
     Route::resource('reviews', AdminReviewController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('comments', AdminCommentController::class)->only(['index', 'show', 'update', 'destroy']);
+
+    // Nhóm 5b: Hỗ trợ khách hàng
+    Route::resource('support-tickets', AdminSupportTicketController::class)
+        ->only(['index', 'show', 'update', 'destroy'])
+        ->parameters(['support-tickets' => 'supportTicket']);
 
     // Nhóm 6: Hiển thị & Hệ thống
     Route::resource('notifications', AdminNotificationController::class)
