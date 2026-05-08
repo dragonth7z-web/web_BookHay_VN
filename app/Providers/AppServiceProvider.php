@@ -15,6 +15,7 @@ use App\Contracts\Repositories\DashboardRepositoryInterface;
 use App\Contracts\Repositories\ShippingAddressRepositoryInterface;
 use App\Contracts\Repositories\SecondHandMarketRepositoryInterface;
 use App\Contracts\Repositories\SupportTicketRepositoryInterface;
+use App\Contracts\Repositories\FlashSaleRepositoryInterface;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
@@ -32,6 +33,7 @@ use App\Repositories\DashboardRepository;
 use App\Repositories\ShippingAddressRepository;
 use App\Repositories\SecondHandMarketRepository;
 use App\Repositories\SupportTicketRepository;
+use App\Repositories\FlashSaleRepository;
 use App\Services\BookService;
 use App\Services\CheckoutService;
 use App\Services\CouponService;
@@ -67,6 +69,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ShippingAddressRepositoryInterface::class, ShippingAddressRepository::class);
         $this->app->singleton(SecondHandMarketRepositoryInterface::class, SecondHandMarketRepository::class);
         $this->app->singleton(SupportTicketRepositoryInterface::class, SupportTicketRepository::class);
+        $this->app->singleton(FlashSaleRepositoryInterface::class, FlashSaleRepository::class);
 
         // Keep concrete singletons for classes without interfaces yet
         $this->app->singleton(CheckoutService::class);
@@ -81,6 +84,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ShippingAddressService::class);
         $this->app->singleton(SecondHandMarketService::class);
         $this->app->singleton(SupportTicketService::class);
+        $this->app->singleton(\App\Services\FlashSalePageService::class);
     }
 
     public function boot(): void

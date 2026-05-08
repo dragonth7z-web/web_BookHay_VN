@@ -5,15 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Publisher;
 use App\Models\SystemLog;
+use App\Repositories\PublisherRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PublisherController extends Controller
 {
+    public function __construct(
+        private PublisherRepository $repo
+    ) {}
+
     public function index()
     {
-        $publishers = Publisher::orderBy('name')->paginate(20);
-        return view('admin.publishers.index', compact('publishers'));
+        $publishers = $this->repo->paginated(20);
+        $stats      = $this->repo->getStats();
+
+        return view('admin.publishers.index', compact('publishers', 'stats'));
     }
 
     public function create()
@@ -23,7 +29,10 @@ class PublisherController extends Controller
 
     public function store(Request $request)
     {
-        $publisher = Publisher::create($request->only(['name', 'slug', 'logo', 'address', 'phone', 'email', 'is_partner']));
+        $publisher = Publisher::create($request->only([
+            'name', 'slug', 'logo', 'address', 'phone', 'email', 'is_partner',
+        ]));
+
         SystemLog::ghi(
             type: 'data',
             action: 'create',
@@ -32,7 +41,8 @@ class PublisherController extends Controller
             objectType: 'Publisher',
             objectId: $publisher->id
         );
-        return redirect()->route('admin.publishers.index')->with('success', 'Thêm thành công.');
+
+        return redirect()->route('admin.publishers.index')->with('success', 'Thêm nhà xuất bản thành công.');
     }
 
     public function edit(Publisher $publisher)
@@ -42,7 +52,10 @@ class PublisherController extends Controller
 
     public function update(Request $request, Publisher $publisher)
     {
-        $publisher->update($request->only(['name', 'slug', 'logo', 'address', 'phone', 'email', 'is_partner']));
+        $publisher->update($request->only([
+            'name', 'slug', 'logo', 'address', 'phone', 'email', 'is_partner',
+        ]));
+
         SystemLog::ghi(
             type: 'data',
             action: 'update',
@@ -51,14 +64,16 @@ class PublisherController extends Controller
             objectType: 'Publisher',
             objectId: $publisher->id
         );
+
         return redirect()->route('admin.publishers.index')->with('success', 'Cập nhật thành công.');
     }
 
     public function destroy(Publisher $publisher)
     {
-        $id = $publisher->id;
+        $id   = $publisher->id;
         $name = $publisher->name;
         $publisher->delete();
+
         SystemLog::ghi(
             type: 'data',
             action: 'delete',
@@ -67,6 +82,7 @@ class PublisherController extends Controller
             objectType: 'Publisher',
             objectId: $id
         );
-        return redirect()->route('admin.publishers.index')->with('success', 'Xóa thành công.');
+
+        return redirect()->route('admin.publishers.index')->with('success', 'Đã xóa nhà xuất bản.');
     }
 }

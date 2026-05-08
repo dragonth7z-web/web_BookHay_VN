@@ -112,60 +112,13 @@
             </div>
         </div>
 
-        {{-- Books — condition_badge is a Model Accessor on Book --}}
+        {{-- Books — dùng chung <x-book-card> component giống trang chủ --}}
         @forelse($featuredBooks as $book)
             @if($loop->first)
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div class="grid-book-layout">
             @endif
 
-            <div class="group bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:border-primary/20 transition-all duration-300 overflow-hidden">
-
-                {{-- Cover --}}
-                <div class="relative aspect-[3/4] overflow-hidden bg-gray-50">
-                    <a href="{{ route('books.show', $book->slug) }}">
-                        <img src="{{ $book->cover_image_url }}"
-                            alt="{{ $book->title }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            loading="lazy">
-                    </a>
-                    {{-- condition_badge is a Model Accessor --}}
-                    <span class="absolute top-2 left-2 {{ $book->condition_badge['class'] }} text-white text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wide">
-                        {{ $book->condition_badge['label'] }}
-                    </span>
-                    <button class="absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-all">
-                        <span class="material-symbols-outlined text-gray-400 hover:text-primary text-[16px]">favorite</span>
-                    </button>
-                </div>
-
-                {{-- Info --}}
-                <div class="p-3">
-                    @if($book->category)
-                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">
-                            {{ $book->category->name }}
-                        </p>
-                    @endif
-                    <a href="{{ route('books.show', $book->slug) }}"
-                        class="text-sm font-bold text-gray-900 line-clamp-2 leading-snug hover:text-primary transition-colors block mb-1">
-                        {{ $book->title }}
-                    </a>
-                    @if($book->authors->isNotEmpty())
-                        <p class="text-xs text-gray-500 mb-2">{{ $book->authors->first()->name }}</p>
-                    @endif
-
-                    {{-- formatted_current_price, has_discount, formatted_original_price are Model Accessors --}}
-                    <div class="flex items-baseline gap-1.5 mb-2">
-                        <span class="text-primary font-black text-base">{{ $book->formatted_current_price }}</span>
-                        @if($book->has_discount)
-                            <span class="text-gray-400 text-xs line-through">{{ $book->formatted_original_price }}</span>
-                        @endif
-                    </div>
-
-                    <a href="{{ route('books.show', $book->slug) }}"
-                        class="block w-full text-center text-xs font-bold text-primary border border-primary/30 hover:bg-primary hover:text-white py-2 rounded-xl transition-all">
-                        Xem chi tiết
-                    </a>
-                </div>
-            </div>
+            <x-book-card :book="$book" />
 
             @if($loop->last)
                 </div>

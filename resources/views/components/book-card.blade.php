@@ -52,13 +52,9 @@
 
 <div class="product-card-container h-full active-feedback group/card" data-book-id="{{ $bookId }}">
     {{-- Book spine effect: border-left mô phỏng gáy sách --}}
-    <div class="relative rounded-[6px] overflow-hidden bg-white dark:bg-slate-800 border border-slate-100/80 dark:border-white/[0.06] shadow-sm hover:shadow-[var(--shadow-book-hover)] hover:-translate-y-2 hover:rotate-[-1.5deg] transition-all duration-500 cursor-pointer flex flex-col h-full {{ $isCompact ? 'compact' : '' }}"
-         style="border-left: 3px solid var(--color-brand-primary, #C92127);">
+    <div class="relative rounded-[6px] overflow-hidden bg-white dark:bg-slate-800 border border-slate-100/80 dark:border-white/[0.06] shadow-sm hover:shadow-[var(--shadow-book-hover)] hover:-translate-y-2 hover:rotate-[-1.5deg] transition-all duration-500 cursor-pointer flex flex-col h-full {{ $isCompact ? 'compact' : '' }}">
 
 
-
-        {{-- Gáy sách gradient overlay --}}
-        <div class="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-brand-primary via-brand-primary-dark to-brand-primary opacity-90 z-10 pointer-events-none"></div>
 
         {{-- Image wrap --}}
         <div class="card-image-wrap aspect-square bg-gray-50 dark:bg-slate-800/80 overflow-hidden flex items-center justify-center relative p-2">

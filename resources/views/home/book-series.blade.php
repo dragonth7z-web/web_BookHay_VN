@@ -45,7 +45,7 @@
         <a href="{{ $seriesUrl }}"
            onclick="if(typeof trackSeriesView==='function') trackSeriesView({{ $series->id }},'{{ addslashes($series->name) }}')"
            class="group flex flex-row bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300"
-           style="border-left: 4px solid var(--color-brand-primary,#C92127); min-height: 260px;">
+           style="min-height: 260px;">
 
             {{-- ===== ẢNH BÌA ===== --}}
             <div class="relative shrink-0 flex items-center justify-center overflow-hidden"
