@@ -26,4 +26,14 @@ class FlashSaleRepository implements FlashSaleRepositoryInterface
             ->take($limit)
             ->get();
     }
+
+    public function getDiscountedBooks(int $take = 8): Collection
+    {
+        return \App\Models\Book::with(['authors', 'category'])
+            ->where('status', BookStatus::InStock)
+            ->whereColumn('original_price', '>', 'sale_price')
+            ->orderByDesc('sold_count')
+            ->take($take)
+            ->get();
+    }
 }

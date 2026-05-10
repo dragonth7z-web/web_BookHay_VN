@@ -21,4 +21,9 @@ class FlashSalePageService
     {
         return $this->flashSaleRepository->getUpcomingSales($limit);
     }
+
+    public function getFallbackBooks(int $take = 8): Collection
+    {
+        return $this->flashSaleRepository->getDiscountedBooks($take);
+    }
 }

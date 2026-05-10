@@ -10,4 +10,6 @@ interface FlashSaleRepositoryInterface
     public function getActiveSale(): ?FlashSale;
 
     public function getUpcomingSales(int $limit = 3): Collection;
+
+    public function getDiscountedBooks(int $take = 8): Collection;
 }
