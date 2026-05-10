@@ -342,7 +342,7 @@ class HomeRepository implements HomeRepositoryInterface
             ['icon' => 'local_offer', 'label' => 'Khuyến Mãi', 'badge' => 'Hot', 'color' => '#fef2f2', 'icolor' => '#C92127', 'gFrom' => '#C92127', 'gTo' => '#f43f5e', 'href' => route('books.search')],
             ['icon' => 'bolt', 'label' => 'Flash Sale', 'badge' => 'Hot', 'color' => '#fffbeb', 'icolor' => '#d97706', 'gFrom' => '#f59e0b', 'gTo' => '#d97706', 'href' => route('flash-sale.index')],
             ['icon' => 'star', 'label' => 'Bán Chạy', 'badge' => 'Hot', 'color' => '#f0fdf4', 'icolor' => '#16a34a', 'gFrom' => '#22c55e', 'gTo' => '#16a34a', 'href' => route('books.search')],
-            ['icon' => 'confirmation_number', 'label' => 'Mã Giảm Giá', 'badge' => '', 'color' => '#faf5ff', 'icolor' => '#9333ea', 'gFrom' => '#a855f7', 'gTo' => '#9333ea', 'href' => route('books.search')],
+            ['icon' => 'confirmation_number', 'label' => 'Mã Giảm Giá', 'badge' => '', 'color' => '#faf5ff', 'icolor' => '#9333ea', 'gFrom' => '#a855f7', 'gTo' => '#9333ea', 'href' => route('coupon-store.index')],
             ['icon' => 'fiber_new', 'label' => 'Sản Phẩm Mới', 'badge' => 'Mới', 'color' => '#fff0f6', 'icolor' => '#db2777', 'gFrom' => '#ec4899', 'gTo' => '#db2777', 'href' => route('books.search')],
             ['icon' => 'published_with_changes', 'label' => 'Chợ Thu Cũ', 'badge' => 'Mới', 'color' => '#eff6ff', 'icolor' => '#2563eb', 'gFrom' => '#3b82f6', 'gTo' => '#2563eb', 'href' => route('second-hand.index')],
             ['icon' => 'headphones', 'label' => 'Sách Nói', 'badge' => 'Sắp ra mắt', 'color' => '#f0fdf4', 'icolor' => '#0d9488', 'gFrom' => '#14b8a6', 'gTo' => '#0d9488', 'href' => route('account.dashboard')],

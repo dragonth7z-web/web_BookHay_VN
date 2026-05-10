@@ -130,7 +130,7 @@
 
     @if($weeklyRankings->isNotEmpty())
     <div class="flex justify-center py-4 px-4 bg-white border-t border-slate-100">
-        <a href="{{ route('books.search', ['sort' => 'weekly_ranking']) }}" class="btn-view-all-premium"
+        <a href="{{ route('weekly-ranking.index') }}" class="btn-view-all-premium"
            aria-label="Xem trọn bộ bảng xếp hạng">
             <span class="material-symbols-outlined">auto_stories</span>
             Xem trọn bộ Bảng Xếp Hạng

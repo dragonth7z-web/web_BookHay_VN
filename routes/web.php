@@ -43,6 +43,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\FlashSalePageController;
+use App\Http\Controllers\WeeklyRankingPageController;
 
 // ============================================================================
 // TRANG CHỦ
@@ -147,6 +148,7 @@ Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
 Route::get('order-tracking', [PageController::class, 'orderTracking'])->name('orders.tracking');
 Route::get('stores', [PageController::class, 'stores'])->name('stores.index');
 Route::get('cho-thu-cu', [PageController::class, 'secondHandMarket'])->name('second-hand.index');
+Route::get('kho-ma-giam-gia', [PageController::class, 'couponStore'])->name('coupon-store.index');
 
 // ============================================================================
 // COMBO, FLASH SALE, COLLECTIONS (Frontend)
@@ -154,6 +156,7 @@ Route::get('cho-thu-cu', [PageController::class, 'secondHandMarket'])->name('sec
 Route::get('combo', [ComboController::class, 'index'])->name('combo.index');
 Route::get('combo/{combo}', [ComboController::class, 'show'])->name('combo.show');
 Route::get('flash-sale', [FlashSalePageController::class, 'index'])->name('flash-sale.index');
+Route::get('bang-xep-hang', [WeeklyRankingPageController::class, 'index'])->name('weekly-ranking.index');
 Route::get('collections', [AdminCollectionController::class, 'index'])->name('collections.index');
 Route::get('collections/{collection}', [AdminCollectionController::class, 'show'])->name('collections.show');
 

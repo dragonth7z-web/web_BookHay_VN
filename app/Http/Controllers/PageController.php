@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Faq;
+use App\Enums\BookStatus;
 use App\Repositories\CouponRepository;
 use App\Services\SecondHandMarketService;
 
@@ -138,5 +139,25 @@ class PageController extends Controller
             'marketStats',
             'filterCategories'
         ));
+    }
+
+    /**
+     * Public coupon store page — Kho Mã Giảm Giá.
+     */
+    public function couponStore()
+    {
+        $coupons         = $this->couponRepo->getActiveCoupons();
+        $trendingBooks   = \App\Models\Book::with(['authors', 'category'])
+            ->where('status', \App\Enums\BookStatus::InStock)
+            ->orderByDesc('sold_count')
+            ->take(5)
+            ->get();
+        $recommendedBooks = \App\Models\Book::with(['authors', 'category'])
+            ->where('status', \App\Enums\BookStatus::InStock)
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+
+        return view('pages.coupon-store', compact('coupons', 'trendingBooks', 'recommendedBooks'));
     }
 }

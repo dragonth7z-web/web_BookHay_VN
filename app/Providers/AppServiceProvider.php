@@ -17,6 +17,7 @@ use App\Contracts\Repositories\SecondHandMarketRepositoryInterface;
 use App\Contracts\Repositories\SupportTicketRepositoryInterface;
 use App\Contracts\Repositories\FlashSaleRepositoryInterface;
 use App\Contracts\Repositories\AuthorRepositoryInterface;
+use App\Contracts\Repositories\WeeklyRankingPageRepositoryInterface;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
@@ -36,6 +37,7 @@ use App\Repositories\SecondHandMarketRepository;
 use App\Repositories\SupportTicketRepository;
 use App\Repositories\FlashSaleRepository;
 use App\Repositories\AuthorRepository;
+use App\Repositories\WeeklyRankingPageRepository;
 use App\Services\BookService;
 use App\Services\CheckoutService;
 use App\Services\CouponService;
@@ -48,6 +50,7 @@ use App\Services\ShippingAddressService;
 use App\Services\SecondHandMarketService;
 use App\Services\SupportTicketService;
 use App\Services\AuthorService;
+use App\Services\WeeklyRankingPageService;
 use App\Services\WishlistService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -74,6 +77,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(SupportTicketRepositoryInterface::class, SupportTicketRepository::class);
         $this->app->singleton(FlashSaleRepositoryInterface::class, FlashSaleRepository::class);
         $this->app->singleton(AuthorRepositoryInterface::class, AuthorRepository::class);
+        $this->app->singleton(WeeklyRankingPageRepositoryInterface::class, WeeklyRankingPageRepository::class);
 
         // Keep concrete singletons for classes without interfaces yet
         $this->app->singleton(CheckoutService::class);
@@ -88,6 +92,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ShippingAddressService::class);
         $this->app->singleton(SecondHandMarketService::class);
         $this->app->singleton(SupportTicketService::class);
+        $this->app->singleton(AuthorService::class);
+        $this->app->singleton(WeeklyRankingPageService::class);
         $this->app->singleton(\App\Services\FlashSalePageService::class);
     }
 
