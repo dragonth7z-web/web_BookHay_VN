@@ -20,42 +20,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @if(isset($vouchers) && $vouchers->count() > 0)
                 @foreach($vouchers->take(3) as $index => $voucher)
-                    <a href="{{ route('books.search') }}"
-                        class="group relative flex h-36 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-800 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
-                        {{-- Main part --}}
-                        <div class="flex-1 bg-slate-50 dark:bg-slate-800/50 p-5 flex flex-col justify-center relative">
-                            {{-- Decorative cutouts --}}
-                            <div
-                                class="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full border-l border-slate-100 dark:border-slate-800 z-10">
-                            </div>
-    
-                            <div class="flex items-center gap-2 mb-1">
-                                <span
-                                    class="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-2 py-0.5 rounded-full">Voucher</span>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Hội viên</span>
-                            </div>
-                            <h3 class="text-lg font-black text-slate-900 dark:text-white leading-tight">Giảm
-                                {{ number_format($voucher->value, 0, ',', '.') }}{{ $voucher->type->value === 'percentage' ? '%' : 'đ' }}
-                            </h3>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">Đơn hàng từ
-                                {{ number_format($voucher->min_order_amount, 0, ',', '.') }}đ</p>
-                        </div>
-    
-                        {{-- Side part (The "Stub") --}}
-                        <div class="w-16 bg-primary dark:bg-red-700 flex items-center justify-center relative">
-                            <div
-                                class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full z-10">
-                            </div>
-                            <span
-                                class="rotate-[-90deg] whitespace-nowrap text-[10px] font-black text-white uppercase tracking-[0.3em]">KHÁM
-                                PHÁ</span>
-                        </div>
-    
-                        {{-- Hover shimmer --}}
-                        <div
-                            class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-[25deg] group-hover:animate-shimmer-slide">
-                        </div>
-                    </a>
+                    {{-- Dùng chung component <x-voucher-card> với account/coupons.blade.php --}}
+                    <x-voucher-card
+                        :coupon="$voucher"
+                        action="link"
+                        :href="route('account.coupons')"
+                        notch-bg="#ffffff" />
                 @endforeach
             @else
                 {{-- PREMIUM EMPTY STATE --}}
@@ -116,7 +86,7 @@
 
     {{-- Center Action Button --}}
     <div class="flex justify-center mt-12 pb-4">
-        <a href="{{ route('books.search') }}" class="btn-view-all-premium group">
+        <a href="{{ route('coupon-store.index') }}" class="btn-view-all-premium group">
             <span class="material-symbols-outlined text-xl transition-transform group-hover:rotate-12">redeem</span>
             Khám phá đặc quyền hội viên
         </a>

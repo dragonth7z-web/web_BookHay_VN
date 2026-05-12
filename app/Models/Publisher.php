@@ -43,4 +43,34 @@ class Publisher extends Model
     {
         return $query->where('is_partner', true);
     }
+
+    // ── Display Logic Accessors ──────────────────────────────────────────────
+
+    public function getStatusLabelAttribute(): string
+    {
+        return $this->is_partner ? 'Hoạt động' : 'Tạm dừng';
+    }
+
+    public function getStatusBadgeClassAttribute(): string
+    {
+        return $this->is_partner
+            ? 'bg-emerald-100 text-emerald-700 border-emerald-200'
+            : 'bg-slate-100 text-slate-500 border-slate-200';
+    }
+
+    public function getLogoUrlAttribute(): string
+    {
+        if (empty($this->logo)) {
+            return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=f1f5f9&color=64748b&size=80';
+        }
+
+        return preg_match('/^https?:\/\//', $this->logo)
+            ? $this->logo
+            : asset('storage/' . $this->logo);
+    }
+
+    public function getCodeAttribute(): string
+    {
+        return 'NXB' . str_pad($this->id, 3, '0', STR_PAD_LEFT);
+    }
 }

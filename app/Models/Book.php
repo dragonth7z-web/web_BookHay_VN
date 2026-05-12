@@ -177,4 +177,17 @@ class Book extends Model
     {
         return number_format($this->original_price, 0, ',', '.') . 'đ';
     }
+
+    // ── Second-hand market display ──
+    public function getConditionBadgeAttribute(): array
+    {
+        $conditions = [
+            ['label' => 'LIKE NEW',  'class' => 'bg-green-500'],
+            ['label' => 'GOOD',      'class' => 'bg-blue-500'],
+            ['label' => 'FAIR',      'class' => 'bg-amber-500'],
+            ['label' => 'RARE FIND', 'class' => 'bg-purple-600'],
+        ];
+
+        return $conditions[$this->id % 4];
+    }
 }

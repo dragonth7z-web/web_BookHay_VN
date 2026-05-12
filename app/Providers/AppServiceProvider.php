@@ -12,6 +12,12 @@ use App\Contracts\Repositories\WeeklyRankingRepositoryInterface;
 use App\Contracts\Repositories\NotificationRepositoryInterface;
 use App\Contracts\Repositories\WishlistRepositoryInterface;
 use App\Contracts\Repositories\DashboardRepositoryInterface;
+use App\Contracts\Repositories\ShippingAddressRepositoryInterface;
+use App\Contracts\Repositories\SecondHandMarketRepositoryInterface;
+use App\Contracts\Repositories\SupportTicketRepositoryInterface;
+use App\Contracts\Repositories\FlashSaleRepositoryInterface;
+use App\Contracts\Repositories\AuthorRepositoryInterface;
+use App\Contracts\Repositories\WeeklyRankingPageRepositoryInterface;
 use App\Models\Book;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
@@ -26,6 +32,12 @@ use App\Repositories\WeeklyRankingRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\WishlistRepository;
 use App\Repositories\DashboardRepository;
+use App\Repositories\ShippingAddressRepository;
+use App\Repositories\SecondHandMarketRepository;
+use App\Repositories\SupportTicketRepository;
+use App\Repositories\FlashSaleRepository;
+use App\Repositories\AuthorRepository;
+use App\Repositories\WeeklyRankingPageRepository;
 use App\Services\BookService;
 use App\Services\CheckoutService;
 use App\Services\CouponService;
@@ -34,6 +46,11 @@ use App\Services\FlashSaleService;
 use App\Services\NotificationService;
 use App\Services\OrderService;
 use App\Services\PurchaseOrderService;
+use App\Services\ShippingAddressService;
+use App\Services\SecondHandMarketService;
+use App\Services\SupportTicketService;
+use App\Services\AuthorService;
+use App\Services\WeeklyRankingPageService;
 use App\Services\WishlistService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -55,6 +72,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(NotificationRepositoryInterface::class, NotificationRepository::class);
         $this->app->singleton(WishlistRepositoryInterface::class, WishlistRepository::class);
         $this->app->singleton(DashboardRepositoryInterface::class, DashboardRepository::class);
+        $this->app->singleton(ShippingAddressRepositoryInterface::class, ShippingAddressRepository::class);
+        $this->app->singleton(SecondHandMarketRepositoryInterface::class, SecondHandMarketRepository::class);
+        $this->app->singleton(SupportTicketRepositoryInterface::class, SupportTicketRepository::class);
+        $this->app->singleton(FlashSaleRepositoryInterface::class, FlashSaleRepository::class);
+        $this->app->singleton(AuthorRepositoryInterface::class, AuthorRepository::class);
+        $this->app->singleton(WeeklyRankingPageRepositoryInterface::class, WeeklyRankingPageRepository::class);
 
         // Keep concrete singletons for classes without interfaces yet
         $this->app->singleton(CheckoutService::class);
@@ -66,6 +89,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(NotificationService::class);
         $this->app->singleton(WishlistService::class);
         $this->app->singleton(DashboardService::class);
+        $this->app->singleton(ShippingAddressService::class);
+        $this->app->singleton(SecondHandMarketService::class);
+        $this->app->singleton(SupportTicketService::class);
+        $this->app->singleton(AuthorService::class);
+        $this->app->singleton(WeeklyRankingPageService::class);
+        $this->app->singleton(\App\Services\FlashSalePageService::class);
     }
 
     public function boot(): void

@@ -5,15 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\SystemLog;
+use App\Services\AuthorService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class AuthorController extends Controller
 {
+    public function __construct(
+        private AuthorService $authorService
+    ) {}
+
     public function index()
     {
-        $authors = Author::orderBy('name')->paginate(20);
-        return view('admin.authors.index', compact('authors'));
+        $authors = $this->authorService->getPaginatedAuthors();
+        $stats   = $this->authorService->getStats();
+
+        return view('admin.authors.index', compact('authors', 'stats'));
     }
 
     public function create()
@@ -23,7 +29,18 @@ class AuthorController extends Controller
 
     public function store(Request $request)
     {
-        $author = Author::create($request->only(['name', 'slug', 'country', 'biography', 'avatar']));
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'slug'    => 'required|string|max:255|unique:authors,slug',
+            'country' => 'nullable|string|max:100',
+            'avatar'  => 'nullable|image|max:8192',
+        ]);
+
+        $author = $this->authorService->createAuthor(
+            $request->only(['name', 'slug', 'country', 'biography']),
+            $request->file('avatar')
+        );
+
         SystemLog::ghi(
             type: 'data',
             action: 'create',
@@ -32,7 +49,8 @@ class AuthorController extends Controller
             objectType: 'Author',
             objectId: $author->id
         );
-        return redirect()->route('admin.authors.index')->with('success', 'Thêm thành công.');
+
+        return redirect()->route('admin.authors.index')->with('success', 'Thêm tác giả thành công.');
     }
 
     public function edit(Author $author)
@@ -42,7 +60,19 @@ class AuthorController extends Controller
 
     public function update(Request $request, Author $author)
     {
-        $author->update($request->only(['name', 'slug', 'country', 'biography', 'avatar']));
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'slug'    => 'required|string|max:255|unique:authors,slug,' . $author->id,
+            'country' => 'nullable|string|max:100',
+            'avatar'  => 'nullable|image|max:8192',
+        ]);
+
+        $this->authorService->updateAuthor(
+            $author,
+            $request->only(['name', 'slug', 'country', 'biography']),
+            $request->file('avatar')
+        );
+
         SystemLog::ghi(
             type: 'data',
             action: 'update',
@@ -51,14 +81,17 @@ class AuthorController extends Controller
             objectType: 'Author',
             objectId: $author->id
         );
+
         return redirect()->route('admin.authors.index')->with('success', 'Cập nhật thành công.');
     }
 
     public function destroy(Author $author)
     {
-        $id = $author->id;
+        $id   = $author->id;
         $name = $author->name;
-        $author->delete();
+
+        $this->authorService->deleteAuthor($author);
+
         SystemLog::ghi(
             type: 'data',
             action: 'delete',
@@ -67,6 +100,7 @@ class AuthorController extends Controller
             objectType: 'Author',
             objectId: $id
         );
-        return redirect()->route('admin.authors.index')->with('success', 'Xóa thành công.');
+
+        return redirect()->route('admin.authors.index')->with('success', 'Đã xóa tác giả.');
     }
 }

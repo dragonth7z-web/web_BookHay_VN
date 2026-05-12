@@ -4,19 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Faq;
+use App\Enums\BookStatus;
 use App\Repositories\CouponRepository;
+use App\Services\SecondHandMarketService;
 
 class PageController extends Controller
 {
-    public function __construct(protected CouponRepository $couponRepo) {}
+    public function __construct(
+        protected CouponRepository $couponRepo,
+        protected SecondHandMarketService $marketService
+    ) {}
 
     /**
      * Active coupons listing page.
+     * Redirects to account coupons if user is logged in.
      */
     public function coupons()
     {
-        $coupons = $this->couponRepo->getActiveCoupons();
+        if (session('user_id')) {
+            return redirect()->route('account.coupons');
+        }
 
+        $coupons = $this->couponRepo->getActiveCoupons();
         return view('pages.coupons', compact('coupons'));
     }
 
@@ -114,5 +123,41 @@ class PageController extends Controller
     public function stores()
     {
         return view('pages.stores');
+    }
+
+    /**
+     * Second-hand book marketplace page.
+     */
+    public function secondHandMarket()
+    {
+        $featuredBooks      = $this->marketService->getFeaturedBooks();
+        $marketStats        = $this->marketService->getMarketStats();
+        $filterCategories   = $this->marketService->getFilterCategories();
+
+        return view('pages.second-hand-market', compact(
+            'featuredBooks',
+            'marketStats',
+            'filterCategories'
+        ));
+    }
+
+    /**
+     * Public coupon store page — Kho Mã Giảm Giá.
+     */
+    public function couponStore()
+    {
+        $coupons         = $this->couponRepo->getActiveCoupons();
+        $trendingBooks   = \App\Models\Book::with(['authors', 'category'])
+            ->where('status', \App\Enums\BookStatus::InStock)
+            ->orderByDesc('sold_count')
+            ->take(5)
+            ->get();
+        $recommendedBooks = \App\Models\Book::with(['authors', 'category'])
+            ->where('status', \App\Enums\BookStatus::InStock)
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+
+        return view('pages.coupon-store', compact('coupons', 'trendingBooks', 'recommendedBooks'));
     }
 }

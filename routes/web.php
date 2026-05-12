@@ -32,6 +32,7 @@ use App\Http\Controllers\Admin\WeeklyRankingController;
 use App\Http\Controllers\Admin\FlashSaleController;
 use App\Http\Controllers\Admin\FeaturedWorksController;
 use App\Http\Controllers\Admin\SystemLogController;
+use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 
 // ─── Frontend Controllers ─────────────────────────────────────────────────────
 use App\Http\Controllers\HomeController;
@@ -41,6 +42,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\FlashSalePageController;
+use App\Http\Controllers\WeeklyRankingPageController;
 
 // ============================================================================
 // TRANG CHỦ
@@ -116,7 +119,13 @@ Route::group(['prefix' => 'account', 'as' => 'account.', 'middleware' => 'auth.c
         Route::get('notifications', 'notifications')->name('notifications');
         Route::post('notifications/{id}/read', 'markNotificationRead')->name('notifications.read');
         Route::post('notifications/read-all', 'markAllNotificationsRead')->name('notifications.read-all');
+        Route::get('coupons', 'coupons')->name('coupons');
         Route::get('reviews', 'reviews')->name('reviews');
+        Route::get('addresses', 'addresses')->name('addresses');
+        Route::post('addresses', 'storeAddress')->name('addresses.store');
+        Route::put('addresses/{id}', 'updateAddress')->name('addresses.update');
+        Route::delete('addresses/{id}', 'destroyAddress')->name('addresses.destroy');
+        Route::post('addresses/{id}/default', 'setDefaultAddress')->name('addresses.default');
     });
 });
 
@@ -139,13 +148,16 @@ Route::group(['prefix' => 'pages', 'as' => 'pages.'], function () {
 
 Route::get('order-tracking', [PageController::class, 'orderTracking'])->name('orders.tracking');
 Route::get('stores', [PageController::class, 'stores'])->name('stores.index');
+Route::get('cho-thu-cu', [PageController::class, 'secondHandMarket'])->name('second-hand.index');
+Route::get('kho-ma-giam-gia', [PageController::class, 'couponStore'])->name('coupon-store.index');
 
 // ============================================================================
 // COMBO, FLASH SALE, COLLECTIONS (Frontend)
 // ============================================================================
 Route::get('combo', [ComboController::class, 'index'])->name('combo.index');
 Route::get('combo/{combo}', [ComboController::class, 'show'])->name('combo.show');
-Route::get('flash-sale', [FlashSaleController::class, 'index'])->name('flash-sale.index');
+Route::get('flash-sale', [FlashSalePageController::class, 'index'])->name('flash-sale.index');
+Route::get('bang-xep-hang', [WeeklyRankingPageController::class, 'index'])->name('weekly-ranking.index');
 Route::get('collections', [AdminCollectionController::class, 'index'])->name('collections.index');
 Route::get('collections/{collection}', [AdminCollectionController::class, 'show'])->name('collections.show');
 
@@ -189,6 +201,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.cust
     // Nhóm 5: Tương tác
     Route::resource('reviews', AdminReviewController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('comments', AdminCommentController::class)->only(['index', 'show', 'update', 'destroy']);
+
+    // Nhóm 5b: Hỗ trợ khách hàng
+    Route::resource('support-tickets', AdminSupportTicketController::class)
+        ->only(['index', 'show', 'update', 'destroy'])
+        ->parameters(['support-tickets' => 'supportTicket']);
 
     // Nhóm 6: Hiển thị & Hệ thống
     Route::resource('notifications', AdminNotificationController::class)

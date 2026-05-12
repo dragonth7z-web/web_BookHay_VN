@@ -65,6 +65,51 @@ class Coupon extends Model
     }
 
     /**
+     * Icon configuration for voucher card display.
+     * Returns bg color, icon content, and label based on coupon type and ui_icon field.
+     */
+    public function getIconConfigAttribute(): array
+    {
+        // Free shipping — detected via ui_icon field or name keyword
+        $isFreeShip = $this->ui_icon === 'free_ship'
+            || str_contains(strtolower($this->name ?? ''), 'free')
+            || str_contains(strtolower($this->name ?? ''), 'ship')
+            || str_contains(strtolower($this->name ?? ''), 'vận chuyển');
+
+        if ($isFreeShip) {
+            return [
+                'type'     => 'freeship',
+                'bg'       => 'bg-green-50',
+                'tab_bg'   => 'bg-green-800',
+                'icon_bg'  => 'bg-green-100',
+                'symbol'   => null,
+                'label'    => 'FREESHIP',
+            ];
+        }
+
+        if ($this->type === CouponType::Percentage) {
+            return [
+                'type'     => 'percentage',
+                'bg'       => 'bg-rose-50',
+                'tab_bg'   => 'bg-primary',
+                'icon_bg'  => 'bg-primary/10',
+                'symbol'   => '%',
+                'label'    => null,
+            ];
+        }
+
+        // Fixed amount
+        return [
+            'type'     => 'fixed',
+            'bg'       => 'bg-rose-50',
+            'tab_bg'   => 'bg-primary',
+            'icon_bg'  => 'bg-primary/10',
+            'symbol'   => 'đ',
+            'label'    => null,
+        ];
+    }
+
+    /**
      * Days remaining until expiry. Negative means expired.
      */
     public function getDaysRemainingAttribute(): int

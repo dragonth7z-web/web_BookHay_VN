@@ -12,13 +12,17 @@ use App\Enums\OrderStatus;
 use App\Services\NotificationService;
 use App\Services\WishlistService;
 use App\Services\DashboardService;
+use App\Services\ShippingAddressService;
+use App\Repositories\CouponRepository;
 
 class AccountController extends Controller
 {
     public function __construct(
         private NotificationService $notificationService,
         private WishlistService $wishlistService,
-        private DashboardService $dashboardService
+        private DashboardService $dashboardService,
+        private ShippingAddressService $addressService,
+        private CouponRepository $couponRepository
     ) {}
 
     private function getUser(): ?User
@@ -137,6 +141,96 @@ class AccountController extends Controller
         $user = $this->getUser();
         $readingLists = $user->readingLists()->with('book')->latest()->paginate(12);
         return view('account.bookshelf', compact('user', 'readingLists'));
+    }
+
+    public function coupons()
+    {
+        $user    = $this->getUser();
+        $coupons = $this->couponRepository->getActiveCoupons();
+        return view('account.coupons', compact('user', 'coupons'));
+    }
+
+    public function addresses()
+    {
+        $user      = $this->getUser();
+        $addresses = $this->addressService->getAddressesForUser($user->id);
+        return view('account.addresses', compact('user', 'addresses'));
+    }
+
+    public function storeAddress(Request $request)
+    {
+        $user = $this->getUser();
+
+        $request->validate([
+            'recipient_name'  => 'required|string|max:100',
+            'recipient_phone' => 'required|string|max:20',
+            'province'        => 'required|string|max:100',
+            'district'        => 'required|string|max:100',
+            'ward'            => 'nullable|string|max:100',
+            'address_detail'  => 'required|string|max:255',
+            'is_default'      => 'nullable|boolean',
+        ]);
+
+        $this->addressService->createAddress($user->id, $request->only([
+            'recipient_name', 'recipient_phone', 'province',
+            'district', 'ward', 'address_detail', 'is_default',
+        ]));
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã thêm địa chỉ mới.']);
+        }
+
+        return back()->with('success', 'Đã thêm địa chỉ mới.');
+    }
+
+    public function updateAddress(Request $request, int $id)
+    {
+        $user = $this->getUser();
+
+        $request->validate([
+            'recipient_name'  => 'required|string|max:100',
+            'recipient_phone' => 'required|string|max:20',
+            'province'        => 'required|string|max:100',
+            'district'        => 'required|string|max:100',
+            'ward'            => 'nullable|string|max:100',
+            'address_detail'  => 'required|string|max:255',
+            'is_default'      => 'nullable|boolean',
+        ]);
+
+        $this->addressService->updateAddress($id, $user->id, $request->only([
+            'recipient_name', 'recipient_phone', 'province',
+            'district', 'ward', 'address_detail', 'is_default',
+        ]));
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã cập nhật địa chỉ.']);
+        }
+
+        return back()->with('success', 'Đã cập nhật địa chỉ.');
+    }
+
+    public function destroyAddress(int $id)
+    {
+        $user = $this->getUser();
+        $this->addressService->deleteAddress($id, $user->id);
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã xóa địa chỉ.']);
+        }
+
+        return back()->with('success', 'Đã xóa địa chỉ.');
+    }
+
+    public function setDefaultAddress(int $id)
+    {
+        $user = $this->getUser();
+        $this->addressService->setDefaultAddress($id, $user->id);
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Đã đặt làm địa chỉ mặc định.']);
+        }
+
+        return back()->with('success', 'Đã đặt làm địa chỉ mặc định.');
     }
 
     public function notifications(Request $request)
