@@ -77,7 +77,7 @@
 
     {{-- Center Action Button --}}
     <div class="flex justify-center mt-12 pb-4">
-        <a href="{{ route('books.search') }}" class="btn-view-all-premium group">
+        <a href="{{ route('publishers.index') }}" class="btn-view-all-premium group">
             <span class="material-symbols-outlined text-xl transition-transform group-hover:rotate-12">museum</span>
             Xem tất cả đối tác xuất bản
         </a>

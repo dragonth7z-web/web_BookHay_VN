@@ -289,7 +289,7 @@
     </div>
 
     <div class="flex justify-center mt-10 pb-2">
-        <a href="{{ route('books.search') }}" class="btn-view-all-premium group">
+        <a href="{{ route('book-series.index') }}" class="btn-view-all-premium group">
             <span class="material-symbols-outlined text-xl transition-transform group-hover:rotate-12">auto_stories</span>
             Khám phá trọn bộ truyện
         </a>

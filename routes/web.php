@@ -50,6 +50,8 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\MembershipUpgradeController;
 use App\Http\Controllers\CollectionPageController;
 use App\Http\Controllers\BookPreferenceController;
+use App\Http\Controllers\PublisherPageController;
+use App\Http\Controllers\BookSeriesPageController;
 
 // ============================================================================
 // TRANG CHỦ
@@ -167,6 +169,8 @@ Route::get('xu-huong-mua-sam', [ShoppingTrendController::class, 'index'])->name(
 Route::get('thanh-vien-vip', [MembershipController::class, 'index'])->name('membership.index');
 Route::get('thanh-vien-vip/nang-cap', [MembershipUpgradeController::class, 'index'])->name('membership.upgrade');
 Route::get('so-thich-sach', [BookPreferenceController::class, 'index'])->name('book-preferences.index');
+Route::get('doi-tac-xuat-ban', [PublisherPageController::class, 'index'])->name('publishers.index');
+Route::get('bo-truyen-tron-bo', [BookSeriesPageController::class, 'index'])->name('book-series.index');
 Route::get('collections', [CollectionPageController::class, 'index'])->name('collections.index');
 Route::get('collections/{collection}', [CollectionPageController::class, 'show'])->name('collections.show');
 
