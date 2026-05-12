@@ -96,6 +96,15 @@
                 </div>
             @endif
 
+            <div id="errorBox" class="hidden p-4 rounded-xl bg-red-50 border border-red-200 mb-6">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-red-500">error</span>
+                <p class="text-sm font-bold text-red-600">Vui lòng kiểm tra lại thông tin:</p>
+              </div>
+              <ul class="list-disc list-inside space-y-1">
+              </ul>
+            </div>
+
             <form method="POST" action="{{ route('register') }}" class="space-y-5" id="registerForm">
                 @csrf
 
@@ -108,6 +117,7 @@
                             class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300"
                             placeholder="Nguyễn Văn A">
                     </div>
+                    <span id="error-ho_ten" class="text-xs font-bold text-red-500 pl-1 mt-0.5 block"></span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -120,6 +130,7 @@
                                 class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300"
                                 placeholder="example@thld.com">
                         </div>
+                        <span id="error-email" class="text-xs font-bold text-red-500 pl-1 mt-0.5 block"></span>
                     </div>
 
                     {{-- Phone Field --}}
@@ -131,6 +142,7 @@
                                 class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300"
                                 placeholder="091x xxx xxx">
                         </div>
+                        <span id="error-so_dien_thoai" class="text-xs font-bold text-red-500 pl-1 mt-0.5 block"></span>
                     </div>
                 </div>
 
@@ -147,6 +159,7 @@
                                 <span class="material-symbols-outlined !text-[20px]">visibility</span>
                             </button>
                         </div>
+                        <span id="error-password" class="text-xs font-bold text-red-500 pl-1 mt-0.5 block"></span>
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1" for="password_confirmation">Xác nhận</label>
@@ -156,6 +169,7 @@
                                 class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                                 placeholder="••••••••">
                         </div>
+                        <span id="error-password_confirmation" class="text-xs font-bold text-red-500 pl-1 mt-0.5 block"></span>
                     </div>
                 </div>
 
@@ -168,6 +182,14 @@
                         <div class="flex-1 h-1.5 rounded-full bg-slate-100 transition-colors" id="bar4"></div>
                     </div>
                     <p class="text-[10px] font-black uppercase text-slate-400 tracking-wider">Mức độ bảo mật: <span id="pwLabel" class="text-brand-primary">YẾU</span></p>
+                </div>
+
+                <div id="pwHints" class="hidden space-y-1 px-1 mt-1">
+                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Gợi ý để mật khẩu mạnh hơn:</p>
+                  <div id="hint-upper" class="text-xs text-slate-400">○ Có chữ hoa (A-Z)</div>
+                  <div id="hint-lower" class="text-xs text-slate-400">○ Có chữ thường (a-z)</div>
+                  <div id="hint-digit" class="text-xs text-slate-400">○ Có chữ số (0-9)</div>
+                  <div id="hint-special" class="text-xs text-slate-400">○ Có ký tự đặc biệt (!@#$...)</div>
                 </div>
 
                 <label class="flex items-start gap-3 cursor-pointer group py-2">
@@ -198,7 +220,7 @@
 @push('scripts')
     @vite('resources/js/auth/auth.js')
     <script>
-        handleAuthFormSubmit('registerForm', 'submitBtn', 'Đang tạo...');
+        new RegisterValidator('registerForm').init();
         initPasswordStrength('password', 'pwStrength', ['bar1', 'bar2', 'bar3', 'bar4'], 'pwLabel');
     </script>
 @endpush

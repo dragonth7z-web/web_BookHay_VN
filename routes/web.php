@@ -58,12 +58,13 @@ Route::controller(AuthController::class)->group(function () {
         Route::get('login', 'showLogin')->name('login');
         Route::post('login', 'login')->name('login.post');
         Route::get('register', 'showRegister')->name('register');
-        Route::post('register', 'register')->name('register.post');
+        Route::post('register', 'register')->name('register.post')->middleware('throttle:5,1');
         Route::get('forgot-password', 'showForgotPassword')->name('password.request');
         Route::post('forgot-password', 'sendResetLink')->name('password.email');
     });
     
     Route::post('logout', 'logout')->name('logout');
+    Route::get('auth/check-email', 'checkEmail')->name('auth.check-email');
 });
 
 // ============================================================================
