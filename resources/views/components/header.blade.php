@@ -80,11 +80,6 @@
                                                 </a>
                                             @endforeach
                                         </div>
-                                        <a href="{{ route('books.search', ['category' => $cat->id]) }}"
-                                            class="inline-flex items-center gap-1 mt-5 text-xs font-bold text-brand-primary hover:underline">
-                                            Xem tất cả {{ $cat->name }}
-                                            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                                        </a>
                                     @else
                                         <div class="flex flex-col items-center justify-center h-48 text-gray-300">
                                             <span class="material-symbols-outlined text-5xl mb-3">{{ $cat->icon ?: 'menu_book' }}</span>
@@ -230,12 +225,19 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="p-3 border-t border-gray-100/50 bg-white/50">
+                            <a href="{{ route('account.notifications') }}"
+                                class="flex items-center justify-center gap-1.5 w-full py-2 text-xs font-bold text-brand-primary hover:underline transition-colors">
+                                <span class="material-symbols-outlined text-[14px]">notifications</span>
+                                Xem tất cả thông báo
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             {{-- Wishlist --}}
-            <a href="#"
+            <a href="{{ route('account.wishlist') }}"
                 class="hidden md:flex flex-col items-center text-gray-700 hover:text-brand-primary transition-all hover:-translate-y-1">
                 <div
                     class="w-10 h-10 rounded-[6px] bg-gray-50 hover:bg-brand-primary-50 flex items-center justify-center transition-colors">

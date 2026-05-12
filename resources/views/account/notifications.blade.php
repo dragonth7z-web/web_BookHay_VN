@@ -53,25 +53,7 @@
                                 </span>
                             @endif
                         </a>
-                        <div class="ml-4 mt-1 space-y-0.5">
-    <a href="{{ route('account.notifications') }}?type=order"
-        class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
-        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-        Cập nhật đơn hàng
-    </a>
 
-    <a href="{{ route('account.notifications') }}?type=promotion"
-        class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
-        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-        Khuyến mãi
-    </a>
-
-    <a href="{{ route('account.notifications') }}?type=system"
-        class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs text-gray-600 font-medium transition-all duration-200 hover:bg-gray-50 hover:text-primary">
-        <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-        Bảo mật
-    </a>
-                    </div>
                     </div>
 
                     <a href="{{ route('account.addresses') }}"
