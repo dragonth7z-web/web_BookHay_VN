@@ -339,13 +339,14 @@
                                 <span class="material-symbols-outlined text-xl">receipt_long</span>
                                 <p class="text-sm font-semibold">Đơn hàng của tôi</p>
                             </a>
-                            <div class="px-4 py-3 flex items-center gap-3 hover:bg-brand-primary-50 text-gray-700 hover:text-brand-primary rounded-xl cursor-pointer transition-colors">
+                            <a href="{{ route('membership.index') }}"
+                                class="px-4 py-3 flex items-center gap-3 hover:bg-brand-primary-50 text-gray-700 hover:text-brand-primary rounded-xl cursor-pointer transition-colors">
                                 <span class="material-symbols-outlined text-xl">stars</span>
                                 <div>
                                     <p class="text-sm font-bold">Thành Viên VIP</p>
                                     <p class="text-[10px] font-medium opacity-80">Tích điểm đổi ngàn quà tặng</p>
                                 </div>
-                            </div>
+                            </a>
                             <div class="border-t border-gray-100 my-1"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -366,14 +367,14 @@
                                 href="{{ route('register') }}">Tạo Tài Khoản</a>
                         </div>
                         <div class="p-2">
-                            <div
+                            <a href="{{ route('membership.index') }}"
                                 class="px-4 py-3 flex items-center gap-3 hover:bg-brand-primary-50 text-gray-700 hover:text-brand-primary rounded-xl cursor-pointer transition-colors">
                                 <span class="material-symbols-outlined text-xl">stars</span>
                                 <div>
                                     <p class="text-sm font-bold">Thành Viên VIP</p>
                                     <p class="text-[10px] font-medium opacity-80">Tích điểm đổi ngàn quà tặng</p>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                         @endif
 

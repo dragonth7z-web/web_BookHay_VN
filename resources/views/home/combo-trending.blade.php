@@ -83,7 +83,7 @@
 
         {{-- ── View All Button ── --}}
         <div class="flex justify-center mt-8 px-6 md:px-8">
-            <a href="{{ route('books.search') }}" class="btn-view-all-premium group">
+            <a href="{{ route('combo.index') }}" class="btn-view-all-premium group">
                 <span
                     class="material-symbols-outlined text-xl transition-transform group-hover:rotate-12">auto_awesome_mosaic</span>
                 Xem tất cả combo tiết kiệm

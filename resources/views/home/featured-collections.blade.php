@@ -28,7 +28,7 @@
 
         {{-- Center Action Button --}}
         <div class="flex justify-center mt-12 pb-4">
-            <a href="{{ route('books.search') }}?filter=series" class="btn-view-all-premium group">
+            <a href="{{ route('collections.index') }}" class="btn-view-all-premium group">
                 <span
                     class="material-symbols-outlined text-xl transition-transform group-hover:rotate-12">auto_stories</span>
                 Xem tất cả bộ sưu tập

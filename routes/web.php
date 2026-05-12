@@ -44,6 +44,12 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\FlashSalePageController;
 use App\Http\Controllers\WeeklyRankingPageController;
+use App\Http\Controllers\ShoppingTrendController;
+use App\Http\Controllers\ComboPageController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\MembershipUpgradeController;
+use App\Http\Controllers\CollectionPageController;
+use App\Http\Controllers\BookPreferenceController;
 
 // ============================================================================
 // TRANG CHỦ
@@ -153,12 +159,16 @@ Route::get('kho-ma-giam-gia', [PageController::class, 'couponStore'])->name('cou
 // ============================================================================
 // COMBO, FLASH SALE, COLLECTIONS (Frontend)
 // ============================================================================
-Route::get('combo', [ComboController::class, 'index'])->name('combo.index');
+Route::get('combo', [ComboPageController::class, 'index'])->name('combo.index');
 Route::get('combo/{combo}', [ComboController::class, 'show'])->name('combo.show');
 Route::get('flash-sale', [FlashSalePageController::class, 'index'])->name('flash-sale.index');
 Route::get('bang-xep-hang', [WeeklyRankingPageController::class, 'index'])->name('weekly-ranking.index');
-Route::get('collections', [AdminCollectionController::class, 'index'])->name('collections.index');
-Route::get('collections/{collection}', [AdminCollectionController::class, 'show'])->name('collections.show');
+Route::get('xu-huong-mua-sam', [ShoppingTrendController::class, 'index'])->name('shopping-trend.index');
+Route::get('thanh-vien-vip', [MembershipController::class, 'index'])->name('membership.index');
+Route::get('thanh-vien-vip/nang-cap', [MembershipUpgradeController::class, 'index'])->name('membership.upgrade');
+Route::get('so-thich-sach', [BookPreferenceController::class, 'index'])->name('book-preferences.index');
+Route::get('collections', [CollectionPageController::class, 'index'])->name('collections.index');
+Route::get('collections/{collection}', [CollectionPageController::class, 'show'])->name('collections.show');
 
 // ============================================================================
 // CHECKOUT SUCCESS/FAILED

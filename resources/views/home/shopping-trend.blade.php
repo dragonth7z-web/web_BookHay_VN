@@ -75,7 +75,7 @@
         </div>
 
         <div class="flex justify-center py-5 px-4">
-            <a href="{{ route('books.search', ['sort' => 'best_seller']) }}" class="btn-view-all-premium"
+            <a href="{{ route('shopping-trend.index') }}" class="btn-view-all-premium"
                aria-label="Xem thêm xu hướng mua sắm">
                 <span class="material-symbols-outlined">local_fire_department</span>
                 Xem Thêm
@@ -139,7 +139,7 @@
         </div>
 
         <div class="flex justify-center py-5 px-4">
-            <a href="{{ route('books.search', ['sort' => 'best_seller']) }}" class="btn-view-all-premium">
+            <a href="{{ route('shopping-trend.index') }}" class="btn-view-all-premium">
                 <span class="material-symbols-outlined">local_fire_department</span>
                 Xem Thêm
             </a>

@@ -147,7 +147,7 @@
             ];
         @endphp
         @foreach($services as $service)
-            <div
+            <a href="{{ $service['href'] ?? route('membership.index') }}"
                 class="group flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-4 p-6 bg-white dark:bg-slate-900 rounded-[6px] border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-premium hover:border-brand-primary/20 hover:-translate-y-1 transition-all duration-500 cursor-pointer">
                 <div
                     class="w-12 h-12 rounded-[4px] bg-slate-50 dark:bg-slate-800 text-primary flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white group-hover:shadow-brand transition-all duration-500 shadow-sm">
@@ -159,7 +159,7 @@
                     <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
                         {{ $service['sub'] }}</p>
                 </div>
-            </div>
+            </a>
         @endforeach
     </div>
 </section>

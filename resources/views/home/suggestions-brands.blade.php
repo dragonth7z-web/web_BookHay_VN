@@ -24,7 +24,7 @@
     {{-- Center Action Button --}}
     @if(isset($recommendedBooks) && $recommendedBooks->count() > 0)
     <div class="flex justify-center mt-12 pb-4">
-        <a href="{{ route('books.search') }}" class="btn-view-all-premium group">
+        <a href="{{ route('book-preferences.index') }}" class="btn-view-all-premium group">
             <span class="material-symbols-outlined text-xl transition-transform group-hover:rotate-12">auto_stories</span>
             Tùy Chỉnh Sở Thích Sách
         </a>
