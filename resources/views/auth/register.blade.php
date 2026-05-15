@@ -168,9 +168,6 @@
                             <input type="password" name="password_confirmation" id="password_confirmation" required
                                 class="w-full pl-11 pr-12 py-3.5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-slate-900 font-medium transition-all outline-none focus:border-brand-primary/30 focus:bg-white focus:ring-4 focus:ring-brand-primary/5 placeholder:text-slate-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                                 placeholder="••••••••">
-                            <button type="button" class="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-300 hover:text-slate-500" onclick="togglePassword('password_confirmation', this)" tabindex="-1">
-                                <span class="material-symbols-outlined !text-[20px]">visibility</span>
-                            </button>
                         </div>
                         <span id="error-password_confirmation" class="text-xs font-bold text-red-500 pl-1 mt-0.5 block"></span>
                     </div>
@@ -205,7 +202,7 @@
                     </span>
                 </label>
 
-                <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-primary to-rose-600 text-white font-black rounded-2xl shadow-xl shadow-brand-primary/30 hover:shadow-2xl hover:shadow-brand-primary/40 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group/btn opacity-50 cursor-not-allowed pointer-events-none" id="submitBtn" disabled>
+                <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-primary to-rose-600 text-white font-black rounded-2xl shadow-xl shadow-brand-primary/30 hover:shadow-2xl hover:shadow-brand-primary/40 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 group/btn" id="submitBtn">
                     <span class="btn-text">Bắt đầu hành trình ngay</span>
                     <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-1">person_add</span>
                     <div class="btn-loader hidden">
@@ -225,51 +222,6 @@
     <script>
         new RegisterValidator('registerForm').init();
         initPasswordStrength('password', 'pwStrength', ['bar1', 'bar2', 'bar3', 'bar4'], 'pwLabel');
-
-        // ── Kiểm tra điều kiện để bật nút submit ──
-        (function () {
-            const btn      = document.getElementById('submitBtn');
-            const fName    = document.getElementById('ho_ten');
-            const fEmail   = document.getElementById('email');
-            const fPhone   = document.getElementById('so_dien_thoai');
-            const fPwd     = document.getElementById('password');
-            const fPwdCfm  = document.getElementById('password_confirmation');
-            const checkbox = document.getElementById('agreeTerms');
-
-            const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const rePhone = /^(0[3|5|7|8|9])[0-9]{8}$/;
-
-            function isValid() {
-                const nameOk  = fName?.value.trim().length >= 2;
-                const emailOk = reEmail.test(fEmail?.value.trim());
-                const phoneOk = rePhone.test(fPhone?.value.trim());
-                const pwdOk   = fPwd?.value.length >= 6;
-                const cfmOk   = fPwdCfm?.value === fPwd?.value && fPwdCfm?.value !== '';
-                const agreed  = checkbox?.checked;
-                return nameOk && emailOk && phoneOk && pwdOk && cfmOk && agreed;
-            }
-
-            function updateBtn() {
-                if (isValid()) {
-                    btn.disabled = false;
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
-                } else {
-                    btn.disabled = true;
-                    btn.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
-                }
-            }
-
-            // Lắng nghe input trên tất cả các field
-            [fName, fEmail, fPhone, fPwd, fPwdCfm].forEach(el => {
-                el?.addEventListener('input', updateBtn);
-            });
-
-            // Checkbox hidden + peer — lắng nghe trên label để bắt click vào div custom
-            checkbox?.closest('label')?.addEventListener('click', () => setTimeout(updateBtn, 0));
-            checkbox?.addEventListener('change', updateBtn);
-
-            updateBtn();
-        })();
     </script>
 @endpush
 @endsection

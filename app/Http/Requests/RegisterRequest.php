@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
@@ -23,7 +24,14 @@ class RegisterRequest extends FormRequest
         return [
             'ho_ten'        => ['required', 'string', 'min:3', 'max:100', 'regex:/^[\p{L}\s]+$/u'],
             'email'         => ['required', 'email:rfc', 'unique:users,email', 'max:255'],
-            'password'      => ['required', 'min:8', 'confirmed'],
+            'password'      => [
+                'required',
+                'confirmed',
+                Password::min(8)
+                    ->mixedCase()   // Có cả chữ hoa và chữ thường
+                    ->numbers()     // Có ít nhất 1 chữ số
+                    ->symbols(),    // Có ít nhất 1 ký tự đặc biệt
+            ],
             'so_dien_thoai' => ['nullable', 'regex:/^(03|05|07|08|09)\d{8}$/'],
         ];
     }
@@ -40,6 +48,9 @@ class RegisterRequest extends FormRequest
             'password.required'     => 'Vui lòng nhập mật khẩu.',
             'password.min'          => 'Mật khẩu phải có ít nhất 8 ký tự.',
             'password.confirmed'    => 'Mật khẩu xác nhận không khớp.',
+            'password.mixed_case'   => 'Mật khẩu phải có cả chữ hoa và chữ thường.',
+            'password.numbers'      => 'Mật khẩu phải chứa ít nhất 1 chữ số.',
+            'password.symbols'      => 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt (!@#$...).',
             'so_dien_thoai.regex'   => 'Số điện thoại không hợp lệ. Phải bắt đầu bằng 03, 05, 07, 08 hoặc 09 và có đúng 10 chữ số.',
         ];
     }
@@ -49,7 +60,7 @@ class RegisterRequest extends FormRequest
         $this->merge([
             'ho_ten'        => trim($this->ho_ten ?? ''),
             'email'         => strtolower(trim($this->email ?? '')),
-            'so_dien_thoai' => trim($this->so_dien_thoai ?? ''),
+            'so_dien_thoai' => trim($this->so_dien_thoai ?? '') ?: null,
         ]);
     }
 

@@ -174,14 +174,16 @@
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <button type="button" class="flex items-center justify-center gap-3 py-3 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all font-bold text-slate-600 group">
+                <a href="{{ route('auth.social.redirect', 'google') }}"
+                    class="flex items-center justify-center gap-3 py-3 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all font-bold text-slate-600 group">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5 group-hover:scale-110 transition-transform" alt="Google">
                     <span>Google</span>
-                </button>
-                <button type="button" class="flex items-center justify-center gap-3 py-3 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all font-bold text-slate-600 group">
+                </a>
+                <a href="{{ route('auth.social.redirect', 'facebook') }}"
+                    class="flex items-center justify-center gap-3 py-3 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all font-bold text-slate-600 group">
                     <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" class="w-5 h-5 group-hover:scale-110 transition-transform" alt="Facebook">
                     <span>Facebook</span>
-                </button>
+                </a>
             </div>
 
         </div>

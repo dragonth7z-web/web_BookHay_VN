@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\SystemLog;
 use App\Http\Requests\RegisterRequest;
+use App\Services\RegisterService;
 
 class AuthController extends Controller
 {
@@ -76,29 +77,22 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request, RegisterService $registerService)
     {
-        $user = User::create([
-            'name' => $request->ho_ten,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->so_dien_thoai,
-            'role_id' => 2,
-            'status' => 'active',
-            'loyalty_points' => 0,
-            'total_spent' => 0,
-        ]);
+        $user   = $registerService->createUser($request->validated());
+        $cart   = $registerService->createDefaultCart($user);
+        $coupon = $registerService->grantWelcomeCoupon($user);
+        $registerService->sendWelcomeNotification($user, $coupon);
+        $registerService->logRegistration($user, $request);
+        $registerService->setupSession($user);
 
-        session([
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'user_email' => $user->email,
-            'user_role' => $user->role_id,
-        ]);
+        $welcomeMsg = 'Chào mừng ' . $user->name . '! Tài khoản đã được tạo. Bạn nhận được 100 điểm thưởng';
+        if ($coupon) {
+            $welcomeMsg .= ' và mã giảm giá ' . $coupon->code . ' (giảm 10% đơn đầu tiên)';
+        }
+        $welcomeMsg .= '.';
 
-        SystemLog::ghi('data', 'create', 'Tài khoản mới được tạo: ' . $user->name . ' (' . $user->email . ')', 'info', 'User', $user->id);
-
-        return redirect()->route('account.dashboard')->with('success', 'Chào mừng ' . $user->name . '! Tài khoản đã được tạo thành công.');
+        return redirect()->route('account.dashboard')->with('success', $welcomeMsg);
     }
 
     // ───────── Check Email ─────────

@@ -34,6 +34,8 @@ use App\Http\Controllers\Admin\FeaturedWorksController;
 use App\Http\Controllers\Admin\SystemLogController;
 use App\Http\Controllers\Admin\SupportTicketController as AdminSupportTicketController;
 
+use App\Http\Controllers\SocialAuthController;
+
 // ─── Frontend Controllers ─────────────────────────────────────────────────────
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
@@ -68,6 +70,12 @@ Route::controller(AuthController::class)->group(function () {
     
     Route::post('logout', 'logout')->name('logout');
     Route::get('auth/check-email', 'checkEmail')->name('auth.check-email');
+});
+
+// OAuth Social Login
+Route::controller(SocialAuthController::class)->prefix('auth')->name('auth.social.')->group(function () {
+    Route::get('{provider}/redirect', 'redirect')->name('redirect');
+    Route::get('{provider}/callback', 'callback')->name('callback');
 });
 
 // ============================================================================
